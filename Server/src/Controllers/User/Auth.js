@@ -1,10 +1,11 @@
 import {
   LoginMessage,
   SignUpMessage,
-} from "../../Constants/Messages/AuthMsg.js";
+} from "../../Constants/Messages/Message.js";
 import User from "../../Models/User/userModel.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 //User Registartion
@@ -13,9 +14,7 @@ export const SignUp = async (req, res) => {
     const { name, email, phone, password } = req.body;
     const isUser = await User.findOne({ email });
     if (isUser) {
-      return res
-        .status(400)
-        .json({ error: true, message: SignUpMessage.AlreadyExist });
+      return res.json({ error: true, message: SignUpMessage.AlreadyExist });
     }
     const newUser = new User({
       name,
@@ -24,12 +23,10 @@ export const SignUp = async (req, res) => {
       password,
     });
     await newUser.save();
-    return res
-      .status(200)
-      .json({ error: false, message: SignUpMessage.Succesfull });
+    return res.json({ error: false, message: SignUpMessage.Succesfull });
   } catch (error) {
     console.log("Regis Eror ", error);
-    return res.status(400).json({ error: true, message: SignUpMessage.Failed });
+    return res.json({ error: true, message: SignUpMessage.Failed });
   }
 };
 
@@ -39,26 +36,25 @@ export const Login = async (req, res) => {
     const { email, password } = req.body;
     const isUser = await User.findOne({ email });
     if (!isUser) {
-      return res
-        .status(400)
-        .json({ error: true, message: LoginMessage.DoesntExist });
+      return res.json({ error: true, message: LoginMessage.DoesntExist });
     } else if (isUser.password != password) {
-      return res
-        .status(400)
-        .json({ error: true, message: LoginMessage.WrongPassword });
+      return res.json({ error: true, message: LoginMessage.WrongPassword });
     }
     const secretKey = process.env.SECRET_KEY;
     const payload = {
-      isUser,
+      id: isUser._id,
+      email: isUser.email,
     };
     const token = jwt.sign(payload, secretKey);
-
-    return res
-      .status(200)
-      .json({ error: false, message: LoginMessage.Succesfull, token: token });
+    return res.json({
+      error: false,
+      message: LoginMessage.Succesfull,
+      token: token,
+      user: isUser,
+    });
   } catch (error) {
     console.log("Login Eror ", error);
-    return res.status(400).json({ error: true, message: LoginMessage.Failed });
+    return res.json({ error: true, message: LoginMessage.Failed });
   }
 };
 

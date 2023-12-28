@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from "axios"
 
-const Upload = () => {
+const Upload = ({ ProductUrl }) => {
     const [file, setfile] = useState()
     let Upload_URL = import.meta.env.VITE_CLOUDINARY_UPLOAD_URL;
 
@@ -12,6 +12,8 @@ const Upload = () => {
         data.append('cloud_name', 'ecommerce18')
         const res = await axios.post(Upload_URL, data)
         console.log(res.data.url);
+        ProductUrl(res.data.url)
+        setfile('');
     }
 
     return (

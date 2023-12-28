@@ -1,10 +1,14 @@
 import { useState } from "react"
 import { DecrementIcon, HeartIcon, IncremnetIcon } from "../../../../public/SVG/IconsSvg"
+import { Toaster } from "react-hot-toast"
 
 const Product = () => {
     const [quantity, setQuantity] = useState(1)
     return (
         <div>
+             <Toaster
+                position='top-right'
+            />
             <section className="overflow-hidden bg-white py-11  font-poppins ">
                 <div className="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
                     <div className="flex flex-wrap -mx-4">

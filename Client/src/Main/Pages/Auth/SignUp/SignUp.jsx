@@ -1,10 +1,16 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import toast, { Toaster } from "react-hot-toast"
-import { Link } from "react-router-dom"
-import { SignUpMessage } from "../../../Constant/Messages/Messages"
+import { Link, useNavigate } from "react-router-dom"
+import { AuthMessage } from "../../../Constant/Messages/Messages"
 import axios from 'axios'
+import ScrollTop from '../../../Constant/ScrollTo/ScrollTop';
+import { MyContext } from "../../../Context/Context"
 
 const SignUp = () => {
+    const context = useContext(MyContext);
+    const { Server } = context;
+
+    const navigate = useNavigate();
     const [Input, setInput] = useState({
         name: '',
         email: '',
@@ -13,7 +19,6 @@ const SignUp = () => {
         confirmPassword: ''
     })
 
-    const Server = import.meta.env.VITE_SERVER;
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,35 +26,61 @@ const SignUp = () => {
     }
 
 
-    const Register = async () => {
+    const SignUp = async () => {
         try {
-            const res = await axios.post(Server + 'auth/signUp', Input)
+            const res = await axios.post(Server + 'auth/signUp', Input);
+            const { error, message } = res.data;
             console.log(res);
+            if (error) {
+                return toast.error(message)
+            }
+            toast.success(message)
+            setTimeout(() => {
+                navigate('/auth/login')
+            }, 3000);
         } catch (error) {
             console.log(error);
         }
     }
 
-    const SignUp = (e) => {
+    const Validate = (e) => {
         e.preventDefault();
-        console.log('Done');
-        if (Input.name == '' || Input.email == '' || Input.phone == '' || Input.password == '' || Input.confirmPassword == '') return toast.error(SignUpMessage.AllMandatory)
+        if (Input.name == '' || Input.email == '' || Input.phone == '' || Input.password == '' || Input.confirmPassword == '') return toast.error(AuthMessage.AllMandatory)
         if (Input.password != Input.confirmPassword) {
-            return toast.error(SignUpMessage.NoMatch)
+            return toast.error(AuthMessage.NoMatch)
         } else if (Input.phone.length != 10) {
-            return toast.error(SignUpMessage.InvalidPhone)
-        } else if (/^\S+@\S+\.\S+$/.test(Input.email)) {
-            return toast.error(SignUpMessage.InvalidEmail)
+            return toast.error(AuthMessage.InvalidPhone)
+        } else if (!/^\S+@\S+\.\S+$/.test(Input.email)) {
+            return toast.error(AuthMessage.InvalidEmail)
         }
-        console.log('Done');
-        Register();
+        SignUp();
     }
 
-    toast.error('hi')
 
     return (
         <section className="bg-gray-200 py-10 ">
-            <Toaster />
+            <ScrollTop />
+            <Toaster
+                position='top-center'
+                toastOptions={{
+                    // Define default options
+                    className: '',
+                    duration: 5000,
+                    style: {
+                        background: 'black',
+                        color: 'white',
+                    },
+
+                    // Default options for specific types
+                    success: {
+                        duration: 3000,
+                        theme: {
+                            primary: 'green',
+                            secondary: 'black',
+                        },
+                    },
+                }}
+            />
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto -mt-5 md:h-screen lg:py-0">
                 <h1>Logo</h1>
                 <div className="w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 ">
@@ -86,7 +117,7 @@ const SignUp = () => {
                                     <label className="font-medium text-slate-600 ">I accept the <a className="font-medium text-blue-600 hover:underline " href="#">Terms and Conditions</a></label>
                                 </div>
                             </div>
-                            <button onClick={SignUp} type="submit" className="w-full text-white bg-blue-700 text-base hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg  px-5 py-2.5 text-center ">Create an account</button>
+                            <button onClick={Validate} type="submit" className="w-full text-white bg-blue-700 text-base hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg  px-5 py-2.5 text-center ">Create an account</button>
                             <p className="text-sm  font-medium text-slate-600  ">
                                 Already have an account? <Link to={'/auth/Login'} className="font-medium text-blue-600  hover:underline ">Login</Link>
                             </p>

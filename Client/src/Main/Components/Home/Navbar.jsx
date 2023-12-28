@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CartIcon, CloseIcon, MenuIcon, MoneyIcon, Search } from '../../../../public/SVG/IconsSvg'
+import { MyContext } from '../../Context/Context';
 
 const Navbar = () => {
     const [MobileMenu, setMobileMenu] = useState(false);
+    const context = useContext(MyContext);
+    const { admin } = context;
 
     return (
         <nav className=" bg-white z-[9999] shadow-lg  sticky top-0  ">
@@ -39,8 +42,10 @@ const Navbar = () => {
                         <Link className="my-2  transition-colors duration-300 transform flex  hover:text-blue-500  md:mx-4 md:my-0 text-blue-700   animate-pulse" to="products"><span>New Arrivals!</span> <span>{MoneyIcon}</span></Link>
                         <Link className="my-2 text-gray-700 transition-colors duration-300 transform  hover:text-blue-500  md:mx-4 md:my-0" to="">About</Link>
                         <Link className="my-2 text-gray-700 transition-colors duration-300 transform  hover:text-blue-500  md:mx-4 md:my-0" to="/auth/login">Login</Link>
-
-                        <Link className="my-2 text-gray-700 transition-colors duration-300 transform  hover:text-blue-500  md:mx-4 md:my-0" to={import.meta.env.VITE_ADMIN_ROUTE+'/home'}>Admin</Link>
+                        {
+                            admin ?
+                                <Link className="my-2 text-gray-700 transition-colors duration-300 transform  hover:text-blue-500  md:mx-4 md:my-0" to={import.meta.env.VITE_ADMIN_ROUTE + '/home'}>Admin</Link>
+                                : null}
                     </div>
 
                     <div className="flex justify-start mt-10 md:mt-0 md:block">
