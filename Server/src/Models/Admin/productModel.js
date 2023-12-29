@@ -10,7 +10,6 @@ const reviewSchema = new Schema(
     },
     title: {
       type: String,
-      unique: true,
       required: true,
     },
     review: {

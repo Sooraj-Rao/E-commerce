@@ -20,3 +20,9 @@ export const AddProdMsg = {
 export const GetProdMsg = {
   fail: "Unable to fetch Products",
 };
+
+export const DeleteProdMsg = {
+  NoExist: "Product Doesnt Exist",
+  fail: "Failed to delete product",
+  success: "Successfully deleted product ",
+};

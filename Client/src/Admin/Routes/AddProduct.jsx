@@ -13,7 +13,7 @@ const AddProduct = () => {
         description: '',
         price: '',
         category: '',
-        imageUrl: '',
+        imageUrl: 'dsdsdsssss',
         stock: ''
     })
     const ProductUrl = (url) => {
@@ -114,7 +114,7 @@ const AddProduct = () => {
                                             readOnly
                                             className="w-full rounded-lg border-gray-400 border p-3 text-sm"
                                             placeholder="imageUrl"
-                                            type="email"
+                                            type="text"
                                             name="imageUrl"
                                         />
                                     </div>

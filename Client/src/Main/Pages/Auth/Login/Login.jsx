@@ -29,7 +29,7 @@ const Login = () => {
                 return toast.error(message)
             }
             toast.success(message)
-            let userInfo = { email: user.email, name: user.name }
+            let userInfo = { email: user.email, name: user.name}
             setCookie('user', (userInfo))
             setCookie('token', token);
             setTimeout(() => {

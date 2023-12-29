@@ -44,13 +44,14 @@ export const Login = async (req, res) => {
     const payload = {
       id: isUser._id,
       email: isUser.email,
+      name: isUser.name,
     };
     const token = jwt.sign(payload, secretKey);
     return res.json({
       error: false,
       message: LoginMessage.Succesfull,
       token: token,
-      user: isUser,
+      user: { email: isUser.email, name: isUser.name },
     });
   } catch (error) {
     console.log("Login Eror ", error);

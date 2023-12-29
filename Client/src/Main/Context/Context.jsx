@@ -5,7 +5,7 @@ export const MyContext = createContext();
 
 
 const Context = ({ children }) => {
-    const [Login, setLogin] = useState(false);
+    const [login, setLogin] = useState(false);
     const [admin, setadmin] = useState(false)
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
     const Server = import.meta.env.VITE_SERVER;
@@ -13,14 +13,14 @@ const Context = ({ children }) => {
     const isAdmin = import.meta.env.VITE_ME;
 
     useEffect(() => {
-        if (cookies.user) {
+        if (cookies?.user) {
             setLogin(true);
             (cookies.user.email == isAdmin) ?
-                setadmin(true) : ''
+                setadmin(true) : null
 
         }
-    }, [cookies])
-    const Values = { Server, theme, Login, setLogin, admin }
+    }, [])
+    const Values = { Server, theme, login, setLogin, admin, removeCookie }
     return (
         <MyContext.Provider value={Values}>{children}</MyContext.Provider>
     )

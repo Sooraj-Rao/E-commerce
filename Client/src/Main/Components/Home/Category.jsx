@@ -13,7 +13,7 @@ const Category = () => {
                             let title = Object.keys(item);
                             return (
                                 <Link to={`/category/${title}`} key={i} className=" cursor-pointer hover:shadow-xl h-full w-64 py-12 rounded-md px-16 bg-gray-100 flex flex-col gap-5 text-center ">
-                                    <img className=" h-3/4 w-full" src={image} alt="" />
+                                    <img loading="lazy" data-nimg="fill" decoding="async" className=" h-3/4 w-full" src={image} alt="" />
                                     <h1 className=" text-xl">{title}</h1>
                                 </Link>
                             )
