@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { MyContext } from "../../../Context/Context";
 import axios from "axios";
 import { AuthMessage } from '../../../Constant/Messages/Messages'
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useCookies } from 'react-cookie'
 
 
@@ -51,26 +51,7 @@ const Login = () => {
     return (
         <section className="bg-gray-200 ">
             <ScrollTop />
-            <Toaster
-                position='top-center'
-                toastOptions={{
-                    // Define default options
-                    className: '',
-                    duration: 5000,
-                    style: {
-                        background: 'black',
-                        color: 'white',
-                    },
-
-                    // Default options for specific types
-                    success: {
-                        duration: 3000,
-                        theme: {
-                            primary: 'green',
-                            secondary: 'black',
-                        },
-                    },
-                }} />
+           
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto -mt-5 md:h-screen lg:py-0">
                 <h1>Logo</h1>
                 <div className="w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 ">

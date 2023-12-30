@@ -1,8 +1,40 @@
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { DecrementIcon, IncremnetIcon } from "../../../../public/SVG/IconsSvg"
+import { useDispatch, useSelector } from "react-redux"
+import { addToCart } from "../../Redux/CartSlice"
+import { MyContext } from "../../Context/Context"
 
 const Cart = () => {
-  const [quantity, setQuantity] = useState(1)
+  const context = useContext(MyContext);
+  const { Server, UserItems, setUserItems, Cart, setCart } = context;
+
+
+  const handleCart = (id, evt) => {
+    setCart((prevCart) => {
+      const updatedCart = prevCart.map((item) => {
+        if (item._id === id) {
+          if (evt === '+') {
+            return { ...item, quantity: item.quantity < 10 ? item.quantity + 1 : item.quantity };
+          } else if (evt === '-') {
+            if (item.quantity > 1) {
+              return { ...item, quantity: item.quantity - 1 };
+            }
+          } 
+        }
+        return item;
+      });
+      return updatedCart;
+    });
+  };
+
+  const RemoveProduct = (id) => {
+    const update = Cart.filter((item) => item._id !== id);
+    setCart(update)
+  }
+
+
+
+
   return (
     <div>
       <section>
@@ -11,47 +43,48 @@ const Cart = () => {
             <header className="text-center">
               <h1 className="text-xl font-bold text-gray-900 sm:text-3xl">Your Cart</h1>
             </header>
-
             <div className="mt-8">
               <ul className="space-y-4">
-                <li className="flex items-center justify-between gap-4">
+                {
+                  Cart?.map((item, i) => {
+                    const { category, imageUrl, name, price, quantity, stock, _id } = item;
+                    return (
+                      <li key={i} className="flex items-center justify-between gap-4">
+                        <div className=" flex">
+                          <img
+                            src="../../../../Images/Home/apple-watch.png"
+                            alt=""
+                            className="h-20 w-20 rounded object-contain mr-5"
+                          />
 
-                  <div className=" flex">
-                    <img
-                      src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=830&q=80"
-                      alt=""
-                      className="h-20 w-20 rounded object-cover"
-                    />
+                          <div className="mt-0.5 space-y-px  text-sm text-gray-600">
+                            <h3 className="text-sm md:text-xl capitalize text-gray-900">{name}</h3>
+                            <div>
+                              <h1 className="my-1  capitalize">{category}</h1>
+                              <h1 className="">{stock > 0 ? <p className=" text-green-500">Item in stock</p> : <p className=" text-red-500">Item Out of stock</p>}</h1>
+                            </div>
+                          </div>
+                        </div>
 
-                    <div className="mt-0.5 space-y-px  text-sm text-gray-600">
-                      <h3 className="text-sm md:text-xl text-gray-900">Basic Tee 6-Pack</h3>
-                      <div>
-                        <h1 className="inline">Size:</h1>
-                        <h1 className="inline">XXS</h1>
-                      </div>
+                        <div className="flex items-center">
+                          <button onClick={() => handleCart(_id, '-')} className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 " type="button">
+                            <span className="sr-only">Quantity button</span>
+                            {IncremnetIcon}
+                          </button>
+                          <div>
+                            <h1 className=" mx-2">{quantity}</h1>
+                          </div>
+                          <button onClick={() => handleCart(_id, '+')} className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 -" type="button">
+                            <span className="sr-only">Quantity button</span>
+                            {DecrementIcon}
+                          </button>
+                        </div>
+                        <button onClick={() => RemoveProduct(_id)} className=" bg-red-500 hover:bg-red-600 py-1 px-2 rounded text-white">Remove</button>
+                      </li>
+                    )
+                  })
+                }
 
-                      <div>
-                        <h1 className="inline">Color:</h1>
-                        <h1 className="inline">White</h1>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-centerF">
-                    <button onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)} className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 " type="button">
-                      <span className="sr-only">Quantity button</span>
-                      {IncremnetIcon}
-                    </button>
-                    <div>
-                      <h1 className=" mx-2">{quantity}</h1>
-                    </div>
-                    <button onClick={() => setQuantity(quantity < 10 ? quantity + 1 : 10)} className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 -" type="button">
-                      <span className="sr-only">Quantity button</span>
-                      {DecrementIcon}
-                    </button>
-                  </div>
-                  <button className=" bg-red-500 hover:bg-red-600 py-1 px-2 rounded text-white">Remove</button>
-                </li>
               </ul>
 
               <div className="mt-8 flex justify-end border-t border-gray-100 pt-8">
@@ -80,25 +113,25 @@ const Cart = () => {
 
                   <div className="flex justify-end">
                     {/* <span
-                      className="inline-flex items-center justify-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-indigo-700"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="-ms-1 me-1.5 h-4 w-4"
+                        className="inline-flex items-center justify-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-indigo-700"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z"
-                        />
-                      </svg>
-
-                      <p className="whitespace-nowrap text-xs">2 Discounts Applied</p>
-                    </span> */}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="-ms-1 me-1.5 h-4 w-4"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z"
+                          />
+                        </svg>
+  
+                        <p className="whitespace-nowrap text-xs">2 Discounts Applied</p>
+                      </span> */}
                   </div>
 
                   <div className="flex justify-end">
@@ -112,6 +145,7 @@ const Cart = () => {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>

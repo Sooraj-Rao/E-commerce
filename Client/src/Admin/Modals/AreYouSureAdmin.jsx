@@ -1,14 +1,21 @@
-import React from 'react'
 
 const AreYouSureAdmin = (props) => {
-    const { setModifyData, message, from, DeleteProduct } = props
+    const { setModifyData, message, from, DeleteProduct, setDelete, DeleteUser } = props;
+
+
     const handleYes = () => {
-        DeleteProduct()
+        if (from === 'ProductDelete') DeleteProduct()
+        if (from === 'UserDelete') DeleteUser()
+
     }
     const handleNo = () => {
         if (from === 'ProductDelete') {
             setModifyData(prev => ({ ...prev, delete: null }));
         }
+        if (from === 'UserDelete') {
+            setDelete(null)
+        }
+
 
     }
 

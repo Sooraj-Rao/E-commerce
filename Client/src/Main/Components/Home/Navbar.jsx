@@ -3,15 +3,17 @@ import { Link } from 'react-router-dom'
 import { CartIcon, CloseIcon, MenuIcon, Search } from '../../../../public/SVG/IconsSvg'
 import { MyContext } from '../../Context/Context';
 import AreYouSure from '../../Modals/AreYouSure';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
     const [FormShow, setFormShow] = useState(false)
     const [MobileMenu, setMobileMenu] = useState(false);
     const context = useContext(MyContext);
     const { admin, login } = context;
-    
+    const cartItems = useSelector((store) => store.cart)
+
     return (
-        <nav className=" bg-white z-[9999] shadow-lg  sticky top-0  ">
+        <nav className=" bg-white z-[999] shadow-lg  sticky top-0  ">
             {
                 FormShow ?
                     <AreYouSure from='Logout' setFormShow={setFormShow} />
@@ -64,12 +66,15 @@ const Navbar = () => {
                     <div className="flex justify-start mt-10 md:mt-0 md:block">
                         <Link className="relative text-gray-700 transition-colors duration-300 transform  hover:text-gray-600 " to={'/cart'}>
                             {CartIcon}
-                            <span className="absolute top-0 -left-4 px-2 py-1 text-xs text-white bg-blue-500 rounded-full">1</span>
+                            {
+                                cartItems?.items?.length > 0 ?
+                                    <h2  className="absolute top-0 -left-4 px-2 py-1 text-xs text-white bg-blue-500 rounded-full">{cartItems?.items.length}</h2> : ''
+                            }
                         </Link>
                     </div>
                 </div>
             </div>
-        </nav>
+        </nav >
 
     )
 }

@@ -6,7 +6,11 @@ export const MyContext = createContext();
 
 const Context = ({ children }) => {
     const [login, setLogin] = useState(false);
-    const [admin, setadmin] = useState(false)
+    const [admin, setadmin] = useState(false);
+    const [Cart, setCart] = useState([])
+    const [UserItems, setUserItems] = useState(() => {
+        return JSON.parse(localStorage.getItem('cart')) || ''
+    })
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
     const Server = import.meta.env.VITE_SERVER;
     const theme = 'Dark'
@@ -17,10 +21,14 @@ const Context = ({ children }) => {
             setLogin(true);
             (cookies.user.email == isAdmin) ?
                 setadmin(true) : null
-
         }
+
     }, [])
-    const Values = { Server, theme, login, setLogin, admin, removeCookie }
+
+
+
+    const Values = { Server, theme, login, setLogin, admin, removeCookie, UserItems, setUserItems, Cart, setCart }
+
     return (
         <MyContext.Provider value={Values}>{children}</MyContext.Provider>
     )

@@ -19,10 +19,22 @@ export const AddProdMsg = {
 
 export const GetProdMsg = {
   fail: "Unable to fetch Products",
+  NoExist: "Product Doesnt Exist",
 };
 
 export const DeleteProdMsg = {
   NoExist: "Product Doesnt Exist",
   fail: "Failed to delete product",
   success: "Successfully deleted product ",
+};
+
+export const UserMsg = {
+  success: "Sucessfull Fetched Users",
+  fail: "Unable to Fetch Users",
+};
+
+export const DeleteUserMsg = {
+  NoExist: "User Doesnt Exist",
+  fail: "Failed to delete User",
+  success: "Successfully deleted User ",
 };

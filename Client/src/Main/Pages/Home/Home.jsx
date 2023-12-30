@@ -1,4 +1,3 @@
-import { Toaster } from 'react-hot-toast'
 import Card from '../../Components/Home/Card'
 import Category from '../../Components/Home/Category'
 import Hero from '../../Components/Home/Hero'
@@ -12,9 +11,6 @@ const Home = () => {
 
     return (
         <div>
-             <Toaster
-                position='top-right'
-            />
             <ScrollTop />
             <Hero />
             <Category />

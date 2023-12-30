@@ -20,7 +20,6 @@ const Products = () => {
       if (error) {
         return toast.error(message)
       }
-      await new Promise(resolve => setTimeout(resolve, 2000));
       setData(data);
     } catch (error) {
       console.log(error);
@@ -45,7 +44,7 @@ const Products = () => {
       FetchProducts();
     } catch (error) {
       console.log(error);
-      toast.success('Failed to Delete')
+      toast.error('Failed to Delete')
       setModifyData({ ...ModifyData, delete: null })
     }
   }
@@ -71,81 +70,95 @@ const Products = () => {
           <span className="px-3 py-1 text-sm mt-1 text-blue-600 bg-blue-100 rounded-full ">{Data?.length}</span>
         </div>
 
-        <div className="flex flex-col mt-6">
-          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-gray-200  md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200 ">
-                  <thead className="bg-gray-50 ">
-                    <tr>
-                      <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 ">
-                        <div className="flex items-center gap-x-3">
-                          <span>Name</span>
-                        </div>
-                      </th>
+        {
+          Data.length != 0 ?
 
-                      <th scope="col" className="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 ">
-                        <button className="flex items-center gap-x-2">
-                          <span>Desc</span>
-                        </button>
-                      </th>
+            <div className="flex flex-col mt-6">
+              <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                  <div className="overflow-hidden border border-gray-200  md:rounded-lg">
+                    <table className="min-w-full divide-y divide-gray-200 ">
+                      <thead className="bg-gray-50 ">
+                        <tr>
+                          <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 ">
+                            <div className="flex items-center gap-x-3">
+                              <span>Name</span>
+                            </div>
+                          </th>
 
-                      <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 ">
-                        <button className="flex items-center gap-x-2">
-                          <span>Category</span>
+                          <th scope="col" className="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 ">
+                            <button className="flex items-center gap-x-2">
+                              <span>Desc</span>
+                            </button>
+                          </th>
+
+                          <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 ">
+                            <button className="flex items-center gap-x-2">
+                              <span>Category</span>
 
 
-                        </button>
-                      </th>
+                            </button>
+                          </th>
 
-                      <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 ">Price</th>
+                          <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 ">Price</th>
 
-                      <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500" >Stock</th>
-                      <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500" >Action</th>
+                          <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500" >Stock</th>
+                          <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500" >Action</th>
 
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200 ">
-                    {
-                      Data?.map((item, i) => {
-                        const { category, description, imageUrl, name, price, stock } = item
-                        return (
-                          <tr key={i}>
-                            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                              <div className="inline-flex items-center gap-x-3">
-                                <div className="flex items-center gap-x-2">
-                                  <img className="object-cover w-10 h-10 rounded-full" src={imageUrl} alt="" />
-                                  <div>
-                                    <h2 className="font-medium text-gray-800  ">{name}</h2>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200 ">
+                        {
+                          Data?.map((item, i) => {
+                            const { category, description, imageUrl, name, price, stock } = item
+                            return (
+                              <tr key={i}>
+                                <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                  <div className="inline-flex items-center gap-x-3">
+                                    <div className="flex items-center gap-x-2">
+                                      <img className="object-cover w-10 h-10 rounded-full" src={imageUrl} alt="" />
+                                      <div>
+                                        <h2 className="font-medium text-gray-800  ">{name}</h2>
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                              </div>
-                            </td>
-                            <td className="px-10 py-4 text-sm text-gray-500  whitespace-nowrap">{description}</td>
-                            <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">{category}</td>
-                            <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">{price}</td>
-                            <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">{stock}</td>
-                            <td className=" w-10 pl-2 pr-4  py-4 text-sm whitespace-nowrap">
-                              <div className="flex items-center gap-x-6">
-                                <button onClick={() => setModifyData({ ...ModifyData, delete: item._id })} className="text-gray-500 transition-colors duration-200  hover:text-black focus:outline-none">
-                                  {DeteteIcon}
-                                </button>
+                                </td>
+                                <td className="px-10 py-4 text-sm text-gray-500  whitespace-nowrap">{description}</td>
+                                <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">{category}</td>
+                                <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">{price}</td>
+                                <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">{stock}</td>
+                                <td className=" w-10 pl-2 pr-4  py-4 text-sm whitespace-nowrap">
+                                  <div className="flex items-center gap-x-6">
+                                    <button onClick={() => setModifyData({ ...ModifyData, delete: item._id })} className="text-gray-500 transition-colors duration-200  hover:text-black focus:outline-none">
+                                      {DeteteIcon}
+                                    </button>
 
-                                <button onClick={() => setModifyData({ ...ModifyData, update: item })} className="text-gray-500 transition-colors duration-200  hover:text-black focus:outline-none">
-                                  {UpdateIcon}
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        )
-                      })
-                    }
-                  </tbody>
-                </table>
+                                    <button onClick={() => setModifyData({ ...ModifyData, update: item })} className="text-gray-500 transition-colors duration-200  hover:text-black focus:outline-none">
+                                      {UpdateIcon}
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            )
+                          })
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+            :
+            <div className=" flex justify-center items-center gap-3 h-20 text-xl">
+
+              <span>
+                Fetching Data
+              </span>
+              <h1 className=" h-5 animate-spin rounded-full w-5 border-2 border-t-transparent border-black">
+
+              </h1>
+            </div>
+        }
 
 
       </section >

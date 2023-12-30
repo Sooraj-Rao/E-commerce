@@ -29,10 +29,10 @@ export const addProduct = async (req, res) => {
 export const getProduct = async (req, res) => {
   try {
     const productList = await Product.find();
-    return res.json({ error: false, data: productList });
+    return res.json({ error: false, data: productList, message: "success" });
   } catch (error) {
     console.log(error);
-    return res.json({ error: true, message: GetProdMsg.fail });
+    return res.json({ error: true, message: GetProdMsg.fail, data: null });
   }
 };
 

@@ -5,27 +5,48 @@ import Login from "./Main/Pages/Auth/Login/Login";
 import SignUp from "./Main/Pages/Auth/SignUp/SignUp";
 import Layout from "./Main/Layout";
 import Cart from "./Main/Pages/Cart/Cart";
-import Product from "./Main/Pages/Product/Product";
+import ProductInfo from "./Main/Pages/Product/Product_Info";
 import Admin from "./Admin/Admin";
+import { Toaster } from "react-hot-toast";
 const App = () => {
 
   return (
     <div>
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path={import.meta.env.VITE_ADMIN_ROUTE + '/:route'} element={<Admin />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Shop />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/p/:id" element={<Product />} />
-            <Route path="/auth/Login" element={<Login />} />
-            <Route path="/auth/signUp" element={<SignUp />} />
-          </Routes>
-          <div>
-          </div>
-        </Layout>
-      </BrowserRouter>
+      <Toaster
+        position='top-center'
+        toastOptions={{
+          // Define default options
+          className: ' -mts-40',
+          duration: 5000,
+          style: {
+            background: 'black',
+            color: 'white',
+          },
+
+          // Default options for specific types
+          success: {
+            duration: 3000,
+            theme: {
+              primary: 'green',
+              secondary: 'black',
+            },
+          },
+        }} />
+      <div>
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path={import.meta.env.VITE_ADMIN_ROUTE + '/:route'} element={<Admin />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/products" element={<Shop />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/p/:id" element={<ProductInfo />} />
+              <Route path="/auth/Login" element={<Login />} />
+              <Route path="/auth/signUp" element={<SignUp />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </div>
     </div>
   )
 }
