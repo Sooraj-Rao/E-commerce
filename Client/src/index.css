@@ -5,3 +5,6 @@
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+.ModalBg{
+  background: rgba(0, 0, 0, 0.611);
+}

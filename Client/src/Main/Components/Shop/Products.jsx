@@ -1,15 +1,41 @@
-import { useDispatch, useSelector } from "react-redux"
-import { addToCart } from "../../Redux/CartSlice";
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import ScrollTop from "../../Constant/ScrollTo/ScrollTop";
+import { CartIcon, StarIcon } from "../../../../public/SVG/IconsSvg";
+import axios from "axios";
+import { MyContext } from "../../Context/Context";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const Products = () => {
-    const cart = useSelector((state) => state.cart);
-    const dispatch = useDispatch();
+    const [Data, setData] = useState([]);
+    const [AlreadyPresent, setAlreadyPresent] = useState([])
+    const context = useContext(MyContext);
+    const { Server, Cart, setCart } = context;
+
+    const FetchData = async () => {
+        try {
+            const res = await axios.get(Server + 'getProducts');
+            const { error, message, data } = res.data;
+            if (error) {
+                return toast.error(message)
+            }
+            setData(data)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const AddCart = (item) => {
+        item.quantity = 1;
+        setCart([...Cart, item])
+        setAlreadyPresent([...AlreadyPresent, item])
+    }
 
     useEffect(() => {
-        dispatch(addToCart({ id: 10, quantity: 10 }));
-    }, []);
+        FetchData()
+    }, [])
+
+    console.log(AlreadyPresent);
 
     return (
         <div>
@@ -20,40 +46,35 @@ const Products = () => {
                 </div>
                 <div className=" flex flex-wrap gap-10 justify-center">
                     {
-                        Array(8).fill('').map((item, i) => {
+                        Data?.map((item, i) => {
+                            const { imageUrl, name, price, _id } = item;
+                            const isAddedToCart = AlreadyPresent.length != 0 ? AlreadyPresent.find((item) => item._id === _id) : ''
                             return (
                                 <div key={i} className="w-full max-w-xs bg-white border border-gray-200 rounded-lg shadow ">
-                                    <a href="#">
-                                        <img className="p-8 rounded-t-lg" src="https://flowbite.com/docs/images/products/apple-watch.png" alt="product image" />
-                                    </a>
+                                    <div className=" h-60 w-full">
+                                        <img className="p-8 object-contain h-full w-full rounded-t-lg  " src="../../../../Images/Home/fastrack watch.webp" alt="product image" />
+                                    </div>
                                     <div className="px-5 pb-5">
-                                        <a href="#">
-                                            <h5 className="text-xl font-semibold tracking-tight text-gray-900 ">Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport</h5>
-                                        </a>
-                                        <div className="flex items-center mt-2.5 mb-5">
-                                            {/* <div className="flex items-center space-x-1 rtl:space-x-reverse">
-                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                    </svg>
-                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                    </svg>
-                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                    </svg>
-                                    <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                    </svg>
-                                    <svg className="w-4 h-4 text-gray-200 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                    </svg>
-                                </div> */}
-                                            <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded   ms-3">5.0</span>
+                                        <Link to={'/p/' + _id}>
+                                            <h5 className="text-xl  tracking-tight hover:text-blue-700 font-bold text-gray-900 ">{name}</h5>
+                                        </Link>
+                                        <div className="flex items-center my-3">
+                                            <h2 className=" bg-green-700 font-semibold rounded text-xs py-0.5  pr-1 pl-2 w-fit gap-x-1 flex items-center text-white">
+                                                <span>4.3</span>
+                                                {StarIcon}
+                                            </h2>
+                                            <p className="text-xs ml-3 font-semibold text-gray-600 ">(73 people rated)</p>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                            <span className="text-3xl font-bold text-gray-900 ">$599</span>
-                                            <a href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Add to cart</a>
+                                            <span className="text-3xl font-bold text-gray-900 ">${price}</span>
+                                            <button disabled={isAddedToCart} onClick={() => AddCart(item)} className="px-6 py-2 font-medium disabled:bg-gray-500  text-white capitalize  duration-300  bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
+                                                {isAddedToCart ? 'Added to Cart' : 'Add to cart'}
+                                            </button>
                                         </div>
+                                        {
+                                            isAddedToCart ?
+                                                <Link to={'/cart'} className=" bg-orange-600 text-white rounded-lg px-2 mt-3 mx-20 justify-center py-1 text-sm gap-x-2  flex items-center">Goto {CartIcon}</Link> : ''
+                                        }
                                     </div>
                                 </div>
                             )

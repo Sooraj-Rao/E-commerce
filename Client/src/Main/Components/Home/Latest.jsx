@@ -45,12 +45,12 @@ const Latest = () => {
                     Data?.map((item, i) => {
                         const { name, price, imageUrl, _id } = item;
                         return (
-                            <div key={i} className="w-full max-w-xs    border border-gray-300 rounded-lg shadow-lg ">
-                                <img className="p-8 rounded-t-lg" src="../../../../Images/Home/apple-watch.png" alt="product image" />
+                            <Link to={'/p/' + _id} key={i} className="w-full max-w-xs group    border border-gray-300 rounded-lg  ">
+                                <img className="p-8 rounded-t-lg group-hover:scale-105 hover:duration-500 duration-500" src="../../../../Images/Home/apple-watch.png" alt="product image" />
                                 <div className="px-5 pb-5">
-                                    <Link to={'/p/' + _id} className=" hover:text-blue-600 text-gray-900 ">
+                                    <div className=" group-hover:text-blue-600 text-gray-900 ">
                                         <h5 className="text-xl font-semibold tracking-tight capitalize ">{name}</h5>
-                                    </Link>
+                                    </div>
                                     <div>
                                         <h2 className=" bg-green-700 font-semibold rounded text-xs py-0.5  pr-1 pl-2 w-fit gap-x-1 flex items-center text-white">
                                             <span>4.3</span>
@@ -61,7 +61,7 @@ const Latest = () => {
                                         <span className="text-3xl font-bold text-gray-900 ">${price}</span>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         )
                     })
                 }

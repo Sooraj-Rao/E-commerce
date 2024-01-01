@@ -1,16 +1,15 @@
 import { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { CartIcon, CloseIcon, MenuIcon, Search } from '../../../../public/SVG/IconsSvg'
 import { MyContext } from '../../Context/Context';
 import AreYouSure from '../../Modals/AreYouSure';
-import { useSelector } from 'react-redux';
 
 const Navbar = () => {
+    const { pathname } = useLocation()
     const [FormShow, setFormShow] = useState(false)
     const [MobileMenu, setMobileMenu] = useState(false);
     const context = useContext(MyContext);
-    const { admin, login } = context;
-    const cartItems = useSelector((store) => store.cart)
+    const { admin, login, Cart } = context;
 
     return (
         <nav className=" bg-white z-[999] shadow-lg  sticky top-0  ">
@@ -63,12 +62,12 @@ const Navbar = () => {
                                 : null}
                     </div>
 
-                    <div className="flex justify-start mt-10 md:mt-0 md:block">
-                        <Link className="relative text-gray-700 transition-colors duration-300 transform  hover:text-gray-600 " to={'/cart'}>
+                    <div className={`flex justify-start mt-10 md:mt-0 md:block ${!pathname.includes('view') ? 'visible' : 'invisible'}`}>
+                        <Link className="relative text-gray-700 transition-colors duration-300 transform  hover:text-gray-600 " to={'view/cart'}>
                             {CartIcon}
                             {
-                                cartItems?.items?.length > 0 ?
-                                    <h2  className="absolute top-0 -left-4 px-2 py-1 text-xs text-white bg-blue-500 rounded-full">{cartItems?.items.length}</h2> : ''
+                                Cart.length > 0 ?
+                                    <h2 className="absolute top-0 -left-4 px-2 py-1 text-xs text-white bg-blue-500 rounded-full">{Cart.length}</h2> : ''
                             }
                         </Link>
                     </div>

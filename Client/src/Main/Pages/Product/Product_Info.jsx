@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useMemo, useState } from "react"
 import { CartIcon, DecrementIcon, HeartIcon, IncremnetIcon, StarIcon } from "../../../../public/SVG/IconsSvg"
 import toast, { Toaster } from "react-hot-toast"
 import axios from 'axios'
@@ -11,24 +11,34 @@ import { addToWishList } from "../../Redux/WishListSlice"
 const ProductInfo = () => {
     const [quantity, setQuantity] = useState(1);
     const [Data, setData] = useState(null)
-    const [Wish, setWish] = useState(false)
-    const [AlreadyPresent, setAlreadyPresent] = useState(false);
+    const [IsPresent, setIsPresent] = useState({
+        cart: false, wish: false
+    })
 
     const { id } = useParams()
     const context = useContext(MyContext);
-    const { Server, UserItems, setUserItems, Cart, setCart } = context;
+    const { Server, UserItems, setUserItems, Cart, setCart, WishList, setWishList } = context;
 
 
     const AddCart = (item) => {
         item.quantity = quantity;
         setCart([...Cart, item])
-        // let isPresent = Cart.find((prod) => prod._id === item._id)
-        setAlreadyPresent(true)
     }
+
     const AddWishList = (item) => {
-        setWish(!Wish)
+        const IsWishList = WishList.find((prod) => prod._id === item._id);
+        if (IsWishList) {
+            console.log(WishList);
+            const RemoveWish = WishList.filter((prod) => prod._id !== item._id);
+            console.log(RemoveWish);
+            setWishList(RemoveWish)
+            toast.success('Removed from WishList')
+        } else {
+            setWishList([...WishList, item])
+            toast.success('Added to  WishList')
+        }
     }
-    console.log(Cart);
+
 
     const FetchProduct = async () => {
         try {
@@ -40,19 +50,27 @@ const ProductInfo = () => {
                     window.history.back()
                 }, 2000);
             }
-            setData(data)
-
+            setData(data);
         } catch (error) {
             console.log(error);
         }
     }
 
+    const CheckIsPresent = () => {
+        const IsCart = Cart.find((item) => item._id == id);
+        const IsWishList = WishList.find((item) => item._id == id);
+        setIsPresent({ cart: IsCart ? true : false, wish: IsWishList ? true : false })
+    }
+
     useEffect(() => {
         !Data && FetchProduct();
-    }, [id])
+        CheckIsPresent();
+    }, [id, Cart, WishList])
+
 
 
     const { description, imageUrl, name, price, stock, _id } = Data ? Data : ''
+
 
     return (
         <div>
@@ -113,11 +131,12 @@ const ProductInfo = () => {
                                     <p className="inline-block mb-8 text-4xl font-bold text-gray-700  ">
                                         <span>${price}</span>
                                         <span
-                                            className="text-base ml-3 font-normal text-gray-500 line-through ">${price + 200}</span>
+                                            className="text-base ml-3 font-normal text-gray-500 line-through ">${price + 220 * 5}</span>
                                     </p>
                                     <p className="text-green-600 ">{stock} in stock</p>
                                 </div>
-                                <div className="flex items-center my-10">
+
+                                <div className={`flex items-center my-10 `}>
                                     <button onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)} className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 " type="button">
                                         <span className="sr-only">Quantity button</span>
                                         {IncremnetIcon}
@@ -132,16 +151,16 @@ const ProductInfo = () => {
                                 </div>
                                 <div className="flex  items-center -mx-4 ">
                                     <div className="w-full px-4 mb-4 flex gap-x-2 lg:w-2/3  lg:mb-0">
-                                        <button disabled={AlreadyPresent} onClick={() => AddCart(Data)} className="px-6 py-2 font-medium disabled:bg-gray-500  text-white capitalize  duration-300  bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
-                                            {AlreadyPresent ? 'Added to Cart' : 'Add to cart'}
+                                        <button disabled={IsPresent.cart} onClick={() => AddCart(Data)} className="px-6 py-2 font-semibold  disabled:bg-gray-500  text-white capitalize  duration-300  bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
+                                            {IsPresent.cart ? 'Added to Cart' : 'Add to cart'}
                                         </button>
                                         {
-                                            AlreadyPresent ?
-                                                <Link to={'/cart'} className=" bg-orange-600 text-white rounded-lg px-2 text-sm gap-x-2  flex items-center">Goto {CartIcon}</Link> : ''
+                                            IsPresent.cart ?
+                                                <Link to={'/view/cart'} className=" bg-orange-600 text-white  rounded-lg px-2 font-semibold gap-x-2  flex items-center">Goto {CartIcon}</Link> : ''
                                         }
                                     </div>
                                     <div className="w-full px-4 mb-4 lg:mb-0 lg:w-1/2">
-                                        <button onClick={() => AddWishList(Data)} className={`px-6 py-2 font-medium tracking-wide  capitalize transition-colors duration-300 transform  bg-gray-200   hover:text-pink-500 ${Wish ? 'text-pink-500' : 'text-gray-400'}   rounded-lg `}>
+                                        <button onClick={() => AddWishList(Data)} className={`px-6 py-2 font-medium   bg-gray-200   hover:bg-gray-300 ${IsPresent.wish ? 'text-pink-500' : 'text-gray-400'}   rounded-lg `}>
                                             {HeartIcon}
                                         </button>
                                     </div>

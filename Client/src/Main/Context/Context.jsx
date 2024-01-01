@@ -7,7 +7,12 @@ export const MyContext = createContext();
 const Context = ({ children }) => {
     const [login, setLogin] = useState(false);
     const [admin, setadmin] = useState(false);
-    const [Cart, setCart] = useState([])
+    const [Cart, setCart] = useState(
+        JSON.parse(localStorage.getItem('cart')) ||
+        []);
+    const [WishList, setWishList] = useState(
+        JSON.parse(localStorage.getItem('wish')) ||
+        [])
     const [UserItems, setUserItems] = useState(() => {
         return JSON.parse(localStorage.getItem('cart')) || ''
     })
@@ -17,17 +22,18 @@ const Context = ({ children }) => {
     const isAdmin = import.meta.env.VITE_ME;
 
     useEffect(() => {
-        if (cookies?.user) {
+        if (!login && cookies?.user) {
             setLogin(true);
             (cookies.user.email == isAdmin) ?
                 setadmin(true) : null
         }
+        localStorage.setItem('cart', JSON.stringify(Cart))
+        localStorage.setItem('wish', JSON.stringify(WishList))
+    }, [Cart, WishList])
 
-    }, [])
 
 
-
-    const Values = { Server, theme, login, setLogin, admin, removeCookie, UserItems, setUserItems, Cart, setCart }
+    const Values = { Server, theme, login, setLogin, admin, removeCookie, UserItems, setUserItems, Cart, setCart, WishList, setWishList }
 
     return (
         <MyContext.Provider value={Values}>{children}</MyContext.Provider>

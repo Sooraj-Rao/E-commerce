@@ -22,26 +22,6 @@ const Admin = () => {
     return (
         <div>
             <ScrollTop />
-            <Toaster
-                position='top-center'
-                toastOptions={{
-                    // Define default options
-                    className: '',
-                    duration: 5000,
-                    style: {
-                        background: 'black',
-                        color: 'white',
-                    },
-
-                    // Default options for specific types
-                    success: {
-                        duration: 3000,
-                        theme: {
-                            primary: 'green',
-                            secondary: 'black',
-                        },
-                    },
-                }} />
             <Navbar />
             {component}
         </div>

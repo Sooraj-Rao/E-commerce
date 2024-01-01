@@ -39,10 +39,11 @@ const App = () => {
               <Route path={import.meta.env.VITE_ADMIN_ROUTE + '/:route'} element={<Admin />} />
               <Route path="/" element={<Home />} />
               <Route path="/products" element={<Shop />} />
-              <Route path="/cart" element={<Cart />} />
+              <Route path="/view/:param" element={<Cart />} />
               <Route path="/p/:id" element={<ProductInfo />} />
               <Route path="/auth/Login" element={<Login />} />
               <Route path="/auth/signUp" element={<SignUp />} />
+              <Route path="/*" element={<h1>Invalid Page Go Back</h1>} />
             </Routes>
           </Layout>
         </BrowserRouter>
