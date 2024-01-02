@@ -45,8 +45,10 @@ const Latest = () => {
                     Data?.map((item, i) => {
                         const { name, price, imageUrl, _id } = item;
                         return (
-                            <Link to={'/p/' + _id} key={i} className="w-full max-w-xs group    border border-gray-300 rounded-lg  ">
-                                <img className="p-8 rounded-t-lg group-hover:scale-105 hover:duration-500 duration-500" src="../../../../Images/Home/apple-watch.png" alt="product image" />
+                            <Link to={'/p/' + _id} key={i} className="w-full max-w-xs group     border border-gray-300 rounded-lg  ">
+                                <div className=" flex justify-center">
+                                    <img className="p-8 rounded-t-lg group-hover:scale-105 hover:duration-500 duration-500 h-52 w-44" src={imageUrl} alt="product image" />
+                                </div>
                                 <div className="px-5 pb-5">
                                     <div className=" group-hover:text-blue-600 text-gray-900 ">
                                         <h5 className="text-xl font-semibold tracking-tight capitalize ">{name}</h5>
@@ -57,7 +59,7 @@ const Latest = () => {
                                             {StarIcon}
                                         </h2>
                                     </div>
-                                    <div className="flex items-center justify-between">
+                                    <div className="flex items-center justify-between ">
                                         <span className="text-3xl font-bold text-gray-900 ">${price}</span>
                                     </div>
                                 </div>

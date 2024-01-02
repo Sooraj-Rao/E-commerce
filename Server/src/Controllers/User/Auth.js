@@ -51,7 +51,7 @@ export const Login = async (req, res) => {
       error: false,
       message: LoginMessage.Succesfull,
       token: token,
-      user: { email: isUser.email, name: isUser.name },
+      user: { email: isUser.email, name: isUser.name ,phone:isUser.phone},
     });
   } catch (error) {
     console.log("Login Eror ", error);

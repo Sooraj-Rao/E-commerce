@@ -50,13 +50,15 @@ const Products = () => {
                             const { imageUrl, name, price, _id } = item;
                             const isAddedToCart = AlreadyPresent.length != 0 ? AlreadyPresent.find((item) => item._id === _id) : ''
                             return (
-                                <div key={i} className="w-full max-w-xs bg-white border border-gray-200 rounded-lg shadow ">
-                                    <div className=" h-60 w-full">
-                                        <img className="p-8 object-contain h-full w-full rounded-t-lg  " src="../../../../Images/Home/fastrack watch.webp" alt="product image" />
-                                    </div>
+                                <div key={i} className="w-full hover:bg-slate-100 group max-w-xs bg-white border border-gray-200 rounded-lg shadow ">
+                                    <Link to={'/p/' + _id}>
+                                        <div className=" h-60 w-full">
+                                            <img className="p-8 object-contain h-full w-full rounded-t-lg  " src={imageUrl} alt="product image" />
+                                        </div>
+                                    </Link>
                                     <div className="px-5 pb-5">
                                         <Link to={'/p/' + _id}>
-                                            <h5 className="text-xl  tracking-tight hover:text-blue-700 font-bold text-gray-900 ">{name}</h5>
+                                            <h5 className="text-xl  tracking-tight group-hover:text-blue-700 font-bold text-gray-900 ">{name}</h5>
                                         </Link>
                                         <div className="flex items-center my-3">
                                             <h2 className=" bg-green-700 font-semibold rounded text-xs py-0.5  pr-1 pl-2 w-fit gap-x-1 flex items-center text-white">
@@ -73,7 +75,7 @@ const Products = () => {
                                         </div>
                                         {
                                             isAddedToCart ?
-                                                <Link to={'/cart'} className=" bg-orange-600 text-white rounded-lg px-2 mt-3 mx-20 justify-center py-1 text-sm gap-x-2  flex items-center">Goto {CartIcon}</Link> : ''
+                                                <Link to={'/view/cart'} className=" bg-orange-600 text-white rounded-lg px-2 mt-3 mx-20 justify-center py-1 text-sm gap-x-2  flex items-center">Goto {CartIcon}</Link> : ''
                                         }
                                     </div>
                                 </div>

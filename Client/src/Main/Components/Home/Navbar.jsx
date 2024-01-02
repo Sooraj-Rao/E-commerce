@@ -15,7 +15,7 @@ const Navbar = () => {
         <nav className=" bg-white z-[999] shadow-lg  sticky top-0  ">
             {
                 FormShow ?
-                    <AreYouSure from='Logout' setFormShow={setFormShow} />
+                    <AreYouSure from='Logout' message='Logout' setFormShow={setFormShow} />
                     : null
             }
             <div className="container px-6 py-4 mx-auto md:flex md:justify-between md:items-center">

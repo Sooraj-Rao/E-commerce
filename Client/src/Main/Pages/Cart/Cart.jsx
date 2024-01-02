@@ -7,6 +7,7 @@ import ScrollTop from "../../Constant/ScrollTo/ScrollTop"
 import AreYouSure from "../../Modals/AreYouSure"
 import toast from "react-hot-toast";
 import { Link, useParams } from 'react-router-dom'
+import emptyCart from '../../../../public/Images/Shop/Empty-cart.jpg'
 
 const Cart = () => {
   const context = useContext(MyContext);
@@ -43,7 +44,6 @@ const Cart = () => {
 
   const RemoveProduct = (id) => {
     if (param == 'cart') {
-
       const update = Cart.filter((item) => item._id !== id);
       setCart(update)
       setConfirmDelete({ id: null, confirm: false })
@@ -52,7 +52,7 @@ const Cart = () => {
       const update = WishList.filter((item) => item._id !== id);
       setWishList(update)
       setConfirmDelete({ id: null, confirm: false })
-      toast.success(`Successfully removed item from ${param}`)
+      toast.success(`Successfully removed item from ${param}`);
     }
   }
   const CalculateTotal = () => {
@@ -77,6 +77,65 @@ const Cart = () => {
     message: `remove from ${param}`,
     setConfirmDelete: setConfirmDelete
   }
+
+
+
+  const addressInfo = {
+    name: 'Sooraj',
+    address: 'Kedalike',
+    pin: 'pincode',
+    phone: 'phoneNumber',
+    date: new Date().toLocaleString(
+      "en-US",
+      {
+        month: "short",
+        day: "2-digit",
+        year: "numeric",
+      }
+    )
+  }
+
+
+  var options = {
+    key: "rzp_test_aJ2B5HiOYA0pSW",
+    key_secret: "GqeOAPfu4b6VpP5FRqTrRQm8",
+    amount: parseInt(Total),
+    currency: "INR",
+    order_receipt: 'order_rcptid_' + 'Sooraj',
+    name: "Click & Buy",
+    description: "for testing purpose",
+    handler: function (response) {
+      console.log(response)
+      toast.success('Payment Successful')
+      const paymentId = response.razorpay_payment_id;
+      const orderInfo = {
+        Cart,
+        addressInfo,
+        date: new Date().toLocaleString(
+          "en-US",
+          {
+            month: "short",
+            day: "2-digit",
+            year: "numeric",
+          }
+        ),
+        email: 'soorajrao360@gmail.com',
+        userid: 'sasjdkhjalsdasvdjbhkaj',
+        paymentId
+      }
+    },
+
+    theme: {
+      color: "#3399cc"
+    }
+  };
+
+  const show = () => {
+    var pay = new window.Razorpay(options);
+    pay.open();
+  }
+
+
   return (
     <div>
       <ScrollTop />
@@ -86,40 +145,46 @@ const Cart = () => {
             <AreYouSure {...DeleteCartItemProps} /> : ''
         }
         <div>
-          <Link to={'/view/' + Title} className="  capitalize flex gap-x-2 text-lg fixed right-5 mt-5 rounded-md bg-gray-300  text-slate-700 font-semibold px-4 py-2">
+          <Link to={'/view/' + Title} className="  capitalize flex gap-x-2 text-base fixed right-20 mt-5 rounded-md bg-blue-600 hover:bg-blue-700  text-slate-100 font-semibold px-4 py-2">
             <span>
               {Title}
             </span>
-            <span className=" mt-1">
+            <span className=" mt-0.5">
               {
                 Title == 'cart' ?
                   CartIcon :
                   HeartIcon
               }
             </span>
-            <span className={` absolute text-base -right-3 -top-3 text-white bg-blue-500 px-2 rounded-full ${RenderItem[Title]?.length > 0 ? ' visible' : 'invisible'}`}>
+            <span className={` absolute text-base -right-3 border border-white -top-3 text-white bg-blue-500 px-2 rounded-full ${RenderItem[Title]?.length > 0 ? ' visible' : 'invisible'}`}>
               {RenderItem[Title]?.length}
             </span>
           </Link>
         </div>
-        <div className="mx-auto max-w-screen-xl min-h-80  px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-          <div className="mx-auto max-w-3xl">
+        <div className="mx-auto  min-h-80  px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+          <div className="mx-auto max-w-5xl">
             <header className="text-center">
               <h1 className="text-xl font-bold text-gray-900 sm:text-3xl">
                 {Render?.length != 0 ? `Your ${param} Items` : `Your ${param} is Empty..Add items to ${param}`}
               </h1>
             </header>
             <div className="mt-8">
+              {
+                Render?.length == 0 ?
+                  <div className="  flex justify-center">
+                    <img src={emptyCart} alt="" className=" w-[30rem] h-[15rem]" />
+                  </div> : ''
+              }
               <ul className="space-y-4">
                 {
                   Render?.map((item, i) => {
                     const { category, imageUrl, name, price, quantity, stock, _id } = item;
                     return (
-                      <li key={i} className="flex items-center  justify-between gap-4">
+                      <li key={i} className="flex items-center  justify-between gap-4 border-b-2 ">
                         <Link to={'/p/' + _id}>
-                          <div className=" flex group">
+                          <div className=" flex group   w-[35rem] ">
                             <img
-                              src="../../../../Images/Home/apple-watch.png"
+                              src={imageUrl}
                               alt=""
                               className="h-28 w-28 rounded object-contain mr-5"
                             />
@@ -128,10 +193,10 @@ const Cart = () => {
                               <div>
                                 <h1 className="my-1  capitalize">{category}</h1>
                                 <h1 className="">{stock > 0 ? <p className=" text-green-500">Item in stock</p> : <p className=" text-red-500">Item Out of stock</p>}</h1>
+                                <h3 className="text-sm md:text-xl capitalize text-gray-900  my-2 font-semibold ">Rs.{price}</h3>
                               </div>
                             </div>
                             <div>
-                              <h3 className="text-sm md:text-xl capitalize text-gray-900 mt-5 ml-10 ">Rs.{price}</h3>
                             </div>
                           </div>
                         </Link>
@@ -149,7 +214,7 @@ const Cart = () => {
                             </button>
                           </div>
                         }
-                        <button onClick={() => setConfirmDelete(({ ...ConfirmDelete, id: _id }))} className=" bg-red-500 hover:bg-red-600 py-2 flex gap-x-2 items-center px-2 text-sm rounded text-white">
+                        <button onClick={() => setConfirmDelete(({ ...ConfirmDelete, id: _id }))} className="border border-slate-300 py-2 font-semibold hover:bg-slate-200 flex gap-x-2 items-center px-2 text-sm rounded-md  text-slate-800">
                           <span>{DeteteIcon}</span>
                           <span>Remove</span>
                         </button>
@@ -210,11 +275,14 @@ const Cart = () => {
 
                     <div className="flex justify-end">
                       <Link
-                        to={'/checkout'}
+                        to={'/checkout/details'}
                         className="block rounded bg-blue-700 px-5 py-2 text-sm text-gray-100 transition "
                       >
                         Checkout
                       </Link>
+                      {/* <button onClick={show}>
+                        Buy
+                      </button> */}
                     </div>
                   </div>
                 </div> : ''

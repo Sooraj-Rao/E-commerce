@@ -29,7 +29,7 @@ const Login = () => {
                 return toast.error(message)
             }
             toast.success(message)
-            let userInfo = { email: user.email, name: user.name}
+            let userInfo = { email: user.email, name: user.name, phone: user.phone }
             setCookie('user', (userInfo))
             setCookie('token', token);
             setTimeout(() => {
@@ -51,7 +51,7 @@ const Login = () => {
     return (
         <section className="bg-gray-200 ">
             <ScrollTop />
-           
+
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto -mt-5 md:h-screen lg:py-0">
                 <h1>Logo</h1>
                 <div className="w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 ">

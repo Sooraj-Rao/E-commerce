@@ -8,6 +8,7 @@ import Cart from "./Main/Pages/Cart/Cart";
 import ProductInfo from "./Main/Pages/Product/Product_Info";
 import Admin from "./Admin/Admin";
 import { Toaster } from "react-hot-toast";
+import Checkout from "./Main/Pages/Checkout/Checkout";
 const App = () => {
 
   return (
@@ -43,6 +44,7 @@ const App = () => {
               <Route path="/p/:id" element={<ProductInfo />} />
               <Route path="/auth/Login" element={<Login />} />
               <Route path="/auth/signUp" element={<SignUp />} />
+              <Route path="/checkout/:param" element={<Checkout />} />
               <Route path="/*" element={<h1>Invalid Page Go Back</h1>} />
             </Routes>
           </Layout>

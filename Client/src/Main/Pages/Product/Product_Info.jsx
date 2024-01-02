@@ -75,13 +75,13 @@ const ProductInfo = () => {
     return (
         <div>
             {window.scrollTo(0, 0)}
-            <section className="overflow-hidden bg-white py-11  font-poppins ">
+            <section className="overflow-hidden bg-white py-4  font-poppins ">
                 <div className="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
                     <div className="flex flex-wrap -mx-4">
-                        <div className="w-full px-4 md:w-1/2 ">
+                        <div className="w-full px-4 md:w-1/3 ">
                             <div className="sticky top-0 z-50 overflow-hidden ">
-                                <div className="relative mb-6 lg:mb-10 lg:h-[26rem] px-10 ">
-                                    <img src="../../../../public/Images/Home/phone.webp" alt=""
+                                <div className="relative mb-6 lg:mb-10 lg:h-[20rem] px-10 ">
+                                    <img src={imageUrl} alt=""
                                         className=" object-contain w-full lg:h-full   " />
                                 </div>
                                 {/* <div className="flex-wrap hidden md:flex ">
@@ -116,7 +116,7 @@ const ProductInfo = () => {
                                 </div> */}
                             </div>
                         </div>
-                        <div className="w-full px-4 md:w-1/2 ">
+                        <div className="w-full px-4 md:w-2/3 ">
                             <div className="lg:pl-20">
                                 <div className="mb-8 ">
                                     <h2 className="max-w-xl mt-2 mb-6 text-2xl font-bold  md:text-4xl">{name}</h2>

@@ -13,9 +13,22 @@ const AddProduct = () => {
         description: '',
         price: '',
         category: '',
-        imageUrl: 'dsdsdsssss',
+        imageUrl: '',
         stock: ''
     })
+    const categories = [
+        'Electronics',
+        'Clothing',
+        'Books',
+        'Home & Kitchen',
+        'Beauty',
+        'Toys & Games',
+        'Sports & Outdoors',
+        'Health & Personal Care',
+        'Smartphone',
+        'Garden & Outdoor',
+    ];
+
     const ProductUrl = (url) => {
         setInput({ ...Input, imageUrl: url })
     }
@@ -43,6 +56,7 @@ const AddProduct = () => {
         }
     }
 
+
     return (
         <div>
             <section className="bg-gray-100">
@@ -61,14 +75,14 @@ const AddProduct = () => {
                                     />
                                 </div>
                                 <div>
-                                    <input
-                                        value={Input.category}
-                                        onChange={handleChange}
-                                        className="w-full rounded-lg border-gray-400 border p-3 text-sm"
-                                        placeholder="Category"
-                                        type="text"
-                                        name="category"
-                                    />
+                                    <select name="category" value={Input.category} onChange={handleChange} className=" py-2 border border-slate-500 rounded-md outline-none">
+                                        <option value="">Choose Categories</option>
+                                        {categories.map((category, index) => (
+                                            <option key={index} value={category}>
+                                                {category}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div>
                                     <textarea
@@ -111,7 +125,7 @@ const AddProduct = () => {
                                     <div>
                                         <input
                                             value={Input.imageUrl}
-                                            readOnly
+                                            onChange={handleChange}
                                             className="w-full rounded-lg border-gray-400 border p-3 text-sm"
                                             placeholder="imageUrl"
                                             type="text"
