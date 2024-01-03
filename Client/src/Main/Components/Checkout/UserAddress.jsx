@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from "react";
 import { MyContext } from '../../Context/Context';
+import ScrollTop from '../../Constant/ScrollTo/ScrollTop';
+import { ArrowIcon } from '../../../../public/SVG/IconsSvg';
 
 const UserAddress = () => {
   const navigate = useNavigate()
@@ -15,6 +17,7 @@ const UserAddress = () => {
 
   return (
     <div>
+      <ScrollTop />
       <section className="py-16 bg-gray-100 ">
         <div className="max-w-6xl px-4 mx-auto">
           <div className="rounded-lg shadow bg-gray-50  ">
@@ -105,11 +108,24 @@ const UserAddress = () => {
               </div>
 
               <div className="w-full md:w-10/12">
-                <div className="flex flex-wrap justify-end -m-1.5">
+                <div className="flex flex-wrap justify-between -m-1.5">
                   <div className="w-full md:w-auto p-1.5">
                     <button
+                      onClick={() => window.history.back()}
+                      className="flex flex-wrap items-center justify-center gap-x-2 w-full px-4 py-2 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded-md hover:bg-blue-600 ">
+                      <span>
+                        {ArrowIcon}
+                      </span>
+                      <span>
+                        Go Back
+                      </span>
+                    </button>
+                  </div>
+                  <div className="w-full md:w-auto p-1.5">
+                    <button
+                    onClick={() => navigate('/checkout/payment')}
                       className="flex flex-wrap justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded-md hover:bg-blue-600 ">
-                      <p onClick={() => navigate('/checkout/payment')}>Continue</p>
+                      <p >Continue</p>
                     </button>
                   </div>
                 </div>

@@ -58,7 +58,7 @@ const Cart = () => {
   const CalculateTotal = () => {
     let Total = 0;
     setTotal(() => {
-      const amount = Cart.map((item, i) => {
+      Cart.map((item) => {
         let amt = item.price * item.quantity;
         Total += amt
         return Total
@@ -76,63 +76,6 @@ const Cart = () => {
     from: 'cart',
     message: `remove from ${param}`,
     setConfirmDelete: setConfirmDelete
-  }
-
-
-
-  const addressInfo = {
-    name: 'Sooraj',
-    address: 'Kedalike',
-    pin: 'pincode',
-    phone: 'phoneNumber',
-    date: new Date().toLocaleString(
-      "en-US",
-      {
-        month: "short",
-        day: "2-digit",
-        year: "numeric",
-      }
-    )
-  }
-
-
-  var options = {
-    key: "rzp_test_aJ2B5HiOYA0pSW",
-    key_secret: "GqeOAPfu4b6VpP5FRqTrRQm8",
-    amount: parseInt(Total),
-    currency: "INR",
-    order_receipt: 'order_rcptid_' + 'Sooraj',
-    name: "Click & Buy",
-    description: "for testing purpose",
-    handler: function (response) {
-      console.log(response)
-      toast.success('Payment Successful')
-      const paymentId = response.razorpay_payment_id;
-      const orderInfo = {
-        Cart,
-        addressInfo,
-        date: new Date().toLocaleString(
-          "en-US",
-          {
-            month: "short",
-            day: "2-digit",
-            year: "numeric",
-          }
-        ),
-        email: 'soorajrao360@gmail.com',
-        userid: 'sasjdkhjalsdasvdjbhkaj',
-        paymentId
-      }
-    },
-
-    theme: {
-      color: "#3399cc"
-    }
-  };
-
-  const show = () => {
-    var pay = new window.Razorpay(options);
-    pay.open();
   }
 
 
@@ -180,7 +123,7 @@ const Cart = () => {
                   Render?.map((item, i) => {
                     const { category, imageUrl, name, price, quantity, stock, _id } = item;
                     return (
-                      <li key={i} className="flex items-center  justify-between gap-4 border-b-2 ">
+                      <li key={i} className="flex items-center  justify-between gap-4 border-b-2 py-4 ">
                         <Link to={'/p/' + _id}>
                           <div className=" flex group   w-[35rem] ">
                             <img

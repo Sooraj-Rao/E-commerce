@@ -7,6 +7,7 @@ import { Link, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { addToCart } from "../../Redux/CartSlice"
 import { addToWishList } from "../../Redux/WishListSlice"
+import ScrollTop from "../../Constant/ScrollTo/ScrollTop"
 
 const ProductInfo = () => {
     const [quantity, setQuantity] = useState(1);
@@ -74,7 +75,7 @@ const ProductInfo = () => {
 
     return (
         <div>
-            {window.scrollTo(0, 0)}
+            <ScrollTop />
             <section className="overflow-hidden bg-white py-4  font-poppins ">
                 <div className="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
                     <div className="flex flex-wrap -mx-4">
@@ -136,19 +137,22 @@ const ProductInfo = () => {
                                     <p className="text-green-600 ">{stock} in stock</p>
                                 </div>
 
-                                <div className={`flex items-center my-10 `}>
-                                    <button onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)} className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 " type="button">
-                                        <span className="sr-only">Quantity button</span>
-                                        {IncremnetIcon}
-                                    </button>
-                                    <div>
-                                        <h1 className=" mx-2">{quantity}</h1>
-                                    </div>
-                                    <button onClick={() => setQuantity(quantity < 10 ? quantity + 1 : 10)} className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 -" type="button">
-                                        <span className="sr-only">Quantity button</span>
-                                        {DecrementIcon}
-                                    </button>
-                                </div>
+                                {
+                                    !IsPresent.cart ?
+                                        <div className={`flex items-center my-10 `}>
+                                            <button onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)} className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 " type="button">
+                                                <span className="sr-only">Quantity button</span>
+                                                {IncremnetIcon}
+                                            </button>
+                                            <div>
+                                                <h1 className=" mx-2">{quantity}</h1>
+                                            </div>
+                                            <button onClick={() => setQuantity(quantity < 10 ? quantity + 1 : 10)} className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 -" type="button">
+                                                <span className="sr-only">Quantity button</span>
+                                                {DecrementIcon}
+                                            </button>
+                                        </div> : ''
+                                }
                                 <div className="flex  items-center -mx-4 ">
                                     <div className="w-full px-4 mb-4 flex gap-x-2 lg:w-2/3  lg:mb-0">
                                         <button disabled={IsPresent.cart} onClick={() => AddCart(Data)} className="px-6 py-2 font-semibold  disabled:bg-gray-500  text-white capitalize  duration-300  bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">

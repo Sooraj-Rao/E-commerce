@@ -21,7 +21,7 @@ const AddProduct = () => {
         'Clothing',
         'Books',
         'Home & Kitchen',
-        'Beauty',
+        'Audio & Video',
         'Toys & Games',
         'Sports & Outdoors',
         'Health & Personal Care',

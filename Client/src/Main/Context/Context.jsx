@@ -10,15 +10,17 @@ const Context = ({ children }) => {
     const [userDetails, setuserDetails] = useState(null)
     const [Cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
     const [WishList, setWishList] = useState(JSON.parse(localStorage.getItem('wish')) || []);
-    const [AddressInfo, setAddressInfo] = useState({
-        state: '',
-        pincode: '',
-        district: '',
-        city: '',
-        address1: '',
-        address2: ''
-    } ||
-        JSON.parse(localStorage.getItem('address'))
+    const [AddressInfo, setAddressInfo] = useState(
+        JSON.parse(localStorage.getItem('address')) ||
+        {
+            state: '',
+            pincode: '',
+            district: '',
+            city: '',
+            address1: '',
+            address2: ''
+        }
+
     )
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
     const Server = import.meta.env.VITE_SERVER;
@@ -27,8 +29,10 @@ const Context = ({ children }) => {
 
     useEffect(() => {
         if (!login && cookies?.user) {
+            const { user, token } = cookies;
+            const details = { user, token }
+            setuserDetails(details);
             setLogin(true);
-            setuserDetails(cookies?.user);
             !admin ?
                 (cookies.user.email == isAdmin) ?
                     setadmin(true) : null
