@@ -1,6 +1,9 @@
 export const CategoryData = [
     {
-        Fashion: '../../../../public/Images/Home/Category/fashion.webp'
+        "Men's Fashion": '../../../../public/Images/Home/Category/fashion.webp'
+    },
+    {
+        "Women's Fashion": '../../../../public/Images/Home/Category/fashion.webp'
     },
     {
         Book: '../../../../public/Images/Home/Category/Books.webp'
@@ -12,15 +15,9 @@ export const CategoryData = [
         Home: '../../../../public/Images/Home/Category/home.webp'
     },
     {
-        Jacket: '../../../../public/Images/Home/Category/jacket.jpg'
+        SmartPhone: '../../../../public/Images/Home/Category/mobile.webp'
     },
     {
-        SmartPhones: '../../../../public/Images/Home/Category/mobile.webp'
-    },
-    {
-        Shirts: '../../../../public/Images/Home/Category/shirt.jpg'
-    },
-    {
-        Shoes: '../../../../public/Images/Home/Category/shoes.jpg'
+        Audio: '../Images/Shop/boat-headphone.webp'
     }
 ]

@@ -10,7 +10,7 @@ export const router = new express.Router();
 router.post("/auth/signUp", SignUp);
 router.post("/auth/login", Login);
 
-router.get("/getProducts", getProducts);
+router.get("/getProducts/:category", getProducts);
 router.get("/productDetail/:_id", getSingleProduct);
 
 router.post("/order/payment", SaveOrderInfo);

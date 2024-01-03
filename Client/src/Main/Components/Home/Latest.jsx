@@ -22,7 +22,7 @@ const Latest = () => {
 
     const FetchData = async () => {
         try {
-            const res = await axios.get(Server + 'getProducts');
+            const res = await axios.get(Server + 'getProducts/all');
             const { error, message, data } = res.data;
             if (error) {
                 return toast.error(message)

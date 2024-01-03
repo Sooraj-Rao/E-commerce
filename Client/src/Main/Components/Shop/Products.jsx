@@ -4,9 +4,11 @@ import { CartIcon, StarIcon } from "../../../../public/SVG/IconsSvg";
 import axios from "axios";
 import { MyContext } from "../../Context/Context";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 
 const Products = () => {
+    const [Search, SetSearch] = useSearchParams();
+    const categoryParam = (Search.get('category'));
     const [Data, setData] = useState([]);
     const [AlreadyPresent, setAlreadyPresent] = useState([])
     const context = useContext(MyContext);
@@ -14,12 +16,17 @@ const Products = () => {
 
     const FetchData = async () => {
         try {
-            const res = await axios.get(Server + 'getProducts');
+            const isParam = categoryParam ? categoryParam : 'all';
+            const res = await axios.get(Server + 'getProducts/' + isParam);
             const { error, message, data } = res.data;
             if (error) {
                 return toast.error(message)
             }
-            setData(data)
+            if (data.length!=0) {
+                setData(data)
+            } else {
+                return window.history.back();
+            }
         } catch (error) {
             console.log(error);
         }
@@ -35,7 +42,6 @@ const Products = () => {
         FetchData()
     }, [])
 
-    console.log(AlreadyPresent);
 
     return (
         <div>

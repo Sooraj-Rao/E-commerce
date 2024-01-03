@@ -4,6 +4,7 @@ import { MyContext } from "../../Main/Context/Context";
 import toast from "react-hot-toast";
 import { DeteteIcon, UpdateIcon } from "../../../public/SVG/IconsSvg";
 import AreYouSureAdmin from "../Modals/AreYouSureAdmin";
+import UpdateModal from "../Modals/UpdateModal";
 
 const Products = () => {
   const [ModifyData, setModifyData] = useState({
@@ -64,6 +65,7 @@ const Products = () => {
         ModifyData.delete ?
           <AreYouSureAdmin {...DeleteProps} /> : ''
       }
+      {/* <UpdateModal/> */}
       <section className="container px-4 mx-auto">
         <div className="flex items-center gap-x-3">
           <h2 className="text-lg font-medium text-gray-800 ">Total Products</h2>
@@ -86,11 +88,11 @@ const Products = () => {
                             </div>
                           </th>
 
-                          <th scope="col" className="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 ">
+                          {/* <th scope="col" className="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 ">
                             <button className="flex items-center gap-x-2">
                               <span>Desc</span>
                             </button>
-                          </th>
+                          </th> */}
 
                           <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 ">
                             <button className="flex items-center gap-x-2">
@@ -116,14 +118,14 @@ const Products = () => {
                                 <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                   <div className="inline-flex items-center gap-x-3">
                                     <div className="flex items-center gap-x-2">
-                                      <img className="object-cover w-10 h-10 rounded-full" src={imageUrl} alt="" />
+                                      <img className=" object-contain w-10 h-10 " src={imageUrl} alt="" />
                                       <div>
                                         <h2 className="font-medium text-gray-800  ">{name}</h2>
                                       </div>
                                     </div>
                                   </div>
                                 </td>
-                                <td className="px-10 py-4 text-sm text-gray-500  whitespace-nowrap">{description}</td>
+                                {/* <td className="px-10 py-4 text-sm text-gray-500  whitespace-nowrap">{description}</td> */}
                                 <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">{category}</td>
                                 <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">{price}</td>
                                 <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">{stock}</td>

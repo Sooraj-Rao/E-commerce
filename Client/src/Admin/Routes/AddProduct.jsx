@@ -18,15 +18,13 @@ const AddProduct = () => {
     })
     const categories = [
         'Electronics',
-        'Clothing',
+        "Men's Fashion",
+        "Women's Fashion",
         'Books',
-        'Home & Kitchen',
-        'Audio & Video',
-        'Toys & Games',
-        'Sports & Outdoors',
-        'Health & Personal Care',
+        'Home',
+        'Audio',
+        // 'Toys',
         'Smartphone',
-        'Garden & Outdoor',
     ];
 
     const ProductUrl = (url) => {
@@ -51,6 +49,14 @@ const AddProduct = () => {
                 return toast.error(message)
             }
             toast.success(message)
+            setInput({
+                name: '',
+                description: '',
+                price: '',
+                category: '',
+                imageUrl: '',
+                stock: ''
+            })
         } catch (error) {
             console.log(error);
         }
@@ -76,7 +82,7 @@ const AddProduct = () => {
                                 </div>
                                 <div>
                                     <select name="category" value={Input.category} onChange={handleChange} className=" py-2 border border-slate-500 rounded-md outline-none">
-                                        <option value="">Choose Categories</option>
+                                        <option value="" className=" bg-slate-300">Choose Categories</option>
                                         {categories.map((category, index) => (
                                             <option key={index} value={category}>
                                                 {category}
