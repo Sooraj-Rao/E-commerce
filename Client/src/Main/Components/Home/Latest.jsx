@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { addToCart } from "../../Redux/CartSlice";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
@@ -9,40 +9,20 @@ import { StarIcon } from '../../../../public/SVG/IconsSvg'
 
 
 const Latest = () => {
-    // const dispatch = useDispatch();
-    // const cartItems = useSelector((store) => store.cart)
-    // const handleAdd = (item) => {
-    //     dispatch(addToCart(item))
-    //     console.log(cartItems);
-    // }
-
-    const [Data, setData] = useState([]);
+    const navigate = useNavigate()
     const context = useContext(MyContext);
-    const { Server } = context;
+    const { Server, AllItems } = context;
 
-    const FetchData = async () => {
-        try {
-            const res = await axios.get(Server + 'getProducts/all');
-            const { error, message, data } = res.data;
-            if (error) {
-                return toast.error(message)
-            }
-            setData(data)
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    useEffect(() => {
-        FetchData()
-    }, [])
+    const Latest = AllItems.filter((item, i) => {
+        return item?.name?.includes('b')
+    })
 
     return (
         <div className=" mx-5">
             <h1 className=" font-semibold text-2xl pb-8 ">Our Lastest Collection</h1>
             <div className=" flex flex-wrap gap-10 justify-center">
                 {
-                    Data?.map((item, i) => {
+                    Latest?.slice(0, 6).map((item, i) => {
                         const { name, price, imageUrl, _id } = item;
                         return (
                             <Link to={'/p/' + name.replaceAll(' ', '-')} key={i} className="w-full max-w-xs group     border border-gray-300 rounded-lg  ">
@@ -67,6 +47,9 @@ const Latest = () => {
                         )
                     })
                 }
+            </div>
+            <div className=" text-center mt-7">
+                <button onClick={() => navigate('/products')} className=" bg-blue-500 hover:bg-blue-600 font-medium text-base text-white py-3 px-5 rounded-lg text-center">View more Products</button>
             </div>
         </div>
     )
