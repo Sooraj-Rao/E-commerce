@@ -4,15 +4,15 @@ import { CartIcon, StarIcon } from "../../../../public/SVG/IconsSvg";
 import axios from "axios";
 import { MyContext } from "../../Context/Context";
 import toast from "react-hot-toast";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 const Products = () => {
     const [Search, SetSearch] = useSearchParams();
+    const navigate = useNavigate()
     const categoryParam = (Search.get('category'));
     const [Data, setData] = useState([]);
-    const [AlreadyPresent, setAlreadyPresent] = useState([])
     const context = useContext(MyContext);
-    const { Server, Cart, setCart } = context;
+    const { Server } = context;
 
     const FetchData = async () => {
         try {
@@ -22,25 +22,21 @@ const Products = () => {
             if (error) {
                 return toast.error(message)
             }
-            if (data.length!=0) {
+            console.log(data, message);
+            if (data) {
                 setData(data)
             } else {
-                return window.history.back();
+                // return navigate('/products')
             }
         } catch (error) {
             console.log(error);
         }
     }
 
-    const AddCart = (item) => {
-        item.quantity = 1;
-        setCart([...Cart, item])
-        setAlreadyPresent([...AlreadyPresent, item])
-    }
 
     useEffect(() => {
         FetchData()
-    }, [])
+    }, [Search])
 
 
     return (
@@ -54,18 +50,13 @@ const Products = () => {
                     {
                         Data?.map((item, i) => {
                             const { imageUrl, name, price, _id } = item;
-                            const isAddedToCart = AlreadyPresent.length != 0 ? AlreadyPresent.find((item) => item._id === _id) : ''
                             return (
-                                <div key={i} className="w-full hover:bg-slate-100 group max-w-xs bg-white border border-gray-200 rounded-lg shadow ">
-                                    <Link to={'/p/' + _id}>
-                                        <div className=" h-60 w-full">
-                                            <img className="p-8 object-contain h-full w-full rounded-t-lg  " src={imageUrl} alt="product image" />
-                                        </div>
-                                    </Link>
+                                <div key={i} className="w-full group  max-w-xs  min-w-[20rem] bg-white border border-gray-200 rounded-lg shadow ">
+                                    <div className=" h-60 w-full bg-sblack">
+                                        <img className="p-2 object-contain h-full w-full rounded-t-lg  " src={imageUrl} alt="product image" />
+                                    </div>
                                     <div className="px-5 pb-5">
-                                        <Link to={'/p/' + _id}>
-                                            <h5 className="text-xl  tracking-tight group-hover:text-blue-700 font-bold text-gray-900 ">{name}</h5>
-                                        </Link>
+                                        <h5 className="text-xl  tracking-tight group-hover:text-blue-700 font-bold text-gray-900 ">{name.length > 50 ? name.slice(0, 50) + '...' : name}</h5>
                                         <div className="flex items-center my-3">
                                             <h2 className=" bg-green-700 font-semibold rounded text-xs py-0.5  pr-1 pl-2 w-fit gap-x-1 flex items-center text-white">
                                                 <span>4.3</span>
@@ -75,14 +66,10 @@ const Products = () => {
                                         </div>
                                         <div className="flex items-center justify-between">
                                             <span className="text-3xl font-bold text-gray-900 ">${price}</span>
-                                            <button disabled={isAddedToCart} onClick={() => AddCart(item)} className="px-6 py-2 font-medium disabled:bg-gray-500  text-white capitalize  duration-300  bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
-                                                {isAddedToCart ? 'Added to Cart' : 'Add to cart'}
-                                            </button>
+                                            <Link to={'/p/' + name.replaceAll(' ', '-')} className="px-6 py-2 font-medium disabled:bg-gray-500  text-white capitalize  duration-300  bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
+                                                View
+                                            </Link>
                                         </div>
-                                        {
-                                            isAddedToCart ?
-                                                <Link to={'/view/cart'} className=" bg-orange-600 text-white rounded-lg px-2 mt-3 mx-20 justify-center py-1 text-sm gap-x-2  flex items-center">Goto {CartIcon}</Link> : ''
-                                        }
                                     </div>
                                 </div>
                             )

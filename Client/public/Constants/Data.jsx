@@ -18,6 +18,6 @@ export const CategoryData = [
         SmartPhone: '../../../../public/Images/Home/Category/mobile.webp'
     },
     {
-        Audio: '../Images/Shop/boat-headphone.webp'
+        Audio: '../Images/Home/Category/audio.webp'
     }
 ]

@@ -8,7 +8,7 @@ export const getProducts = async (req, res) => {
     const productList = await Product.find(
       isParam ? { category: { $regex: isParam, $options: "i" } } : null
     );
-    if (productList) {
+    if (productList.length != 0) {
       return res.json({ error: false, data: productList, message: "success" });
     } else {
       return res.json({ error: false, data: null, message: "failed" });
@@ -21,8 +21,9 @@ export const getProducts = async (req, res) => {
 
 export const getSingleProduct = async (req, res) => {
   try {
-    const { _id } = req.params;
-    const productData = await Product.findOne({ _id });
+    let { name } = req.params;
+    name = name.replaceAll("-", " ");
+    const productData = await Product.findOne({ name: name });
     if (!productData) {
       return res.json({ error: true, message: GetProdMsg.NoExist, data: null });
     }

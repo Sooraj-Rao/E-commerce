@@ -45,7 +45,7 @@ const Latest = () => {
                     Data?.map((item, i) => {
                         const { name, price, imageUrl, _id } = item;
                         return (
-                            <Link to={'/p/' + _id} key={i} className="w-full max-w-xs group     border border-gray-300 rounded-lg  ">
+                            <Link to={'/p/' + name.replaceAll(' ', '-')} key={i} className="w-full max-w-xs group     border border-gray-300 rounded-lg  ">
                                 <div className=" flex justify-center">
                                     <img className="p-8 rounded-t-lg group-hover:scale-105 hover:duration-500 duration-500 h-52 w-44" src={imageUrl} alt="product image" />
                                 </div>

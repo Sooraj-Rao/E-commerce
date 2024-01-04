@@ -11,7 +11,7 @@ router.post("/auth/signUp", SignUp);
 router.post("/auth/login", Login);
 
 router.get("/getProducts/:category", getProducts);
-router.get("/productDetail/:_id", getSingleProduct);
+router.get("/productDetail/:name", getSingleProduct);
 
 router.post("/order/payment", SaveOrderInfo);
 router.get("/order/invoice/:email", getOrderInfo);
