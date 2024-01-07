@@ -1,71 +1,51 @@
-import React from 'react'
 
 const Privacy = () => {
     return (
-        <div>
-            <h1>
-                **Privacy Policy for QuickMart**
+        <div className='p-6'>
+          
+            <h1 className=' font-semibold  text-lg'>
+                Personal Identification Information
             </h1>
             <p>
-
-                At QuickMart, the privacy of our visitors and users is of utmost importance to us. This Privacy Policy outlines the types of information collected and recorded by QuickMart and how we use it.
+                We may collect personal identification information from Users in various ways, including but not limited to when Users visit our site, register on the site, place an order, subscribe to the newsletter, respond to a survey, fill out a form, and in connection with other activities, services, features, or resources we make available on our Site. Users may be asked for, as appropriate, name, email address, mailing address, phone number, and credit card information. Users may, however, visit our Site anonymously. We will collect personal identification information from Users only if they voluntarily submit such information to us. Users can always refuse to supply personally identification information, except that it may prevent them from engaging in certain Site-related activities.
             </p>
-            <br />
-
-            <h1>
-                **Information Collection and Use**
+            <h1 className=' font-semibold  text-lg mt-4'>
+                Non-Personal Identification Information
             </h1>
-
             <p>
-
-                QuickMart may collect personal information when users voluntarily provide it while using our app or website. This information may include but is not limited to names, email addresses, phone numbers, shipping addresses, and payment details. We use this information for order processing, delivery, customer service, and to improve our services.
+                We may collect non-personal identification information about Users whenever they interact with our Site. Non-personal identification information may include the browser name, the type of computer, and technical information about Users' means of connection to our Site, such as the operating system and the Internet service providers utilized and other similar information.
             </p>
+            <h1 className=' font-semibold  text-lg mt-4'>
+                Web Browser Cookies
 
-            <h1>
-
-                **Log Files**
             </h1>
-
             <p>
-
-                Like many other websites and apps, QuickMart utilizes log files. These files gather non-personal information such as internet protocol (IP) addresses, browser types, internet service providers (ISPs), date/time stamps, and referring/exit pages. This data is used to analyze trends, administer the site, track user movements, and gather demographic information. It is not linked to any personally identifiable information.
+                Our Site may use "cookies" to enhance User experience. Users' web browsers place cookies on their hard drive for record-keeping purposes and sometimes to track information about them. Users may choose to set their web browser to refuse cookies or to alert you when cookies are being sent. If they do so, note that some parts of the Site may not function properly.
             </p>
-
-            <h1>
-
-                **Cookies and Web Beacons**
+            <h1 className=' font-semibold  text-lg mt-4'>
+                How We Protect Your Information
+            </h1>
+            <p>
+                We adopt appropriate data collection, storage, and processing practices and security measures to protect against unauthorized access, alteration, disclosure, or destruction of Users' personal information, username, password, transaction information, and data stored on our Site.        </p>
+            <h1 className=' font-semibold  text-lg mt-4'>
+                Sharing Personal Information
             </h1>
 
             <p>
-
-                QuickMart uses cookies to enhance user experience. These cookies are used to store information including user preferences and pages visited by the user. Users can choose to disable cookies through their browser settings, but this may affect the functionality of the app or website.
+                We do not sell, trade, or rent Users' personal identification information to others. We may share generic aggregated demographic information not linked to any personal identification information regarding visitors and users with our business partners, trusted affiliates, and advertisers for the purposes outlined above.
             </p>
-
-            <h1>
-
-                **Data Security**
+            <h1 className=' font-semibold  text-lg mt-4'>
+                Third-party Links
             </h1>
-
             <p>
-
-                QuickMart implements appropriate security measures to safeguard users’ personal information against unauthorized access, alteration, disclosure, or destruction.
-            </p>
-
-            <h1>
-
-                **Third-party Links**
-            </h1>
-
-            <p>
-
                 QuickMart may contain links to third-party websites or services. These sites have their own privacy policies, and we are not responsible for the content or activities of these linked sites.
-
                 By using QuickMart, users consent to our Privacy Policy and agree to its terms and conditions. QuickMart reserves the right to modify this Privacy Policy at any time. Users are encouraged to review this policy periodically for any changes.
-
-                If you have any questions about our Privacy Policy, please contact us at [contact@email.com].
+                If you have any questions about our Privacy Policy, please contact us at 'qucikmart@gmail.com'.
             </p>
 
-
+            <div className=' text-center'>
+                <button onClick={() => window.history.back()} className=' rounded-md bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mt-10'>Go back</button>
+            </div>
         </div>
     )
 }

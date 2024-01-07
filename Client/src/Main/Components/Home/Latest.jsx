@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { MyContext } from '../../Context/Context'
 import toast from "react-hot-toast";
 import { StarIcon } from '../../../../public/SVG/IconsSvg'
-
+import { Rupee } from '../../Constant/Messages/Messages'
 
 const Latest = () => {
     const navigate = useNavigate()
@@ -14,7 +14,6 @@ const Latest = () => {
     const Latest = AllItems.filter((item, i) => {
         return item?.name?.includes('p')
     })
-
     return (
         <div className=" mx-5">
             <img src="../../../../Images/Home/banner2.jpg" alt="" />
@@ -32,14 +31,14 @@ const Latest = () => {
                                     <div className=" group-hover:text-blue-600 text-gray-900 ">
                                         <h5 className="text-xl font-semibold tracking-tight capitalize ">{name}</h5>
                                     </div>
-                                    <div>
+                                    <div className=" py-2">
                                         <h2 className=" bg-green-700 font-semibold rounded text-xs py-0.5  pr-1 pl-2 w-fit gap-x-1 flex items-center text-white">
                                             <span>4.3</span>
                                             {StarIcon}
                                         </h2>
                                     </div>
                                     <div className="flex items-center justify-between ">
-                                        <span className="text-3xl font-bold text-gray-900 ">${price}</span>
+                                        <span className="text-3xl font-bold text-gray-900 ">{Rupee} {price}</span>
                                     </div>
                                 </div>
                             </Link>

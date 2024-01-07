@@ -4,16 +4,29 @@ import UserAddress from "../../Components/Checkout/UserAddress";
 import UserDetails from "../../Components/Checkout/UserDetails";
 import Payment from "../../Components/Checkout/Payment";
 import Invoice from "../../Components/Checkout/Invoice";
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
 
 
 const Checkout = () => {
-  const { param } = useParams()
+  const { param } = useParams();
+  const [cookies, setCookie, removeCookie] = useCookies();
   const ComponentList = {
     details: <UserDetails />,
     address: <UserAddress />,
     payment: <Payment />,
     invoice: <Invoice />
   }
+
+  useEffect(() => {
+    if (!cookies?.user?.email || !cookies?.user?.name ||
+      !cookies?.user?.phone || !cookies?.token) {
+      removeCookie('user');
+      removeCookie('token');
+        return window.location.href = '/auth/login';
+    }
+  }, [cookies])
+
 
   let Component = ComponentList[param] || window.history.back()
 

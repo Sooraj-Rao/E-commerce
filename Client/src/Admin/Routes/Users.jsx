@@ -12,11 +12,13 @@ const Users = () => {
   const [Delete, setDelete] = useState(null)
 
   const context = useContext(MyContext);
-  const { Server } = context;
+  const { Server, userDetails } = context;
+  const user = userDetails?.user?.email;
+  const token = userDetails?.token;
 
   const FetchData = async () => {
     try {
-      const res = await axios.get(Server + 'admin/getUsers')
+      const res = await axios.get(Server + `admin/getUsers?email=${user}&token=${token}`)
       const { error, message, data } = res.data
       if (error) {
         return toast.error(message)
@@ -31,7 +33,7 @@ const Users = () => {
   const DeleteUser = async () => {
     try {
       const id = Delete;
-      const res = await axios.delete(Server + `admin/deleteUser/${id}`,{id})
+      const res = await axios.delete(Server + `admin/deleteUser/${id}`, { id })
       const { error, message } = res.data
       if (error) {
         return toast.error(message)

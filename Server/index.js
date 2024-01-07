@@ -12,6 +12,6 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 app.use(userRouter);
-app.use('/admin',adminRouter);
+app.use("/admin", adminRouter);
 
 app.listen(3000, () => console.log("Server Started"));

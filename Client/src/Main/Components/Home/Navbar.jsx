@@ -12,7 +12,7 @@ const Navbar = () => {
     const [MobileMenu, setMobileMenu] = useState(false);
     const [ShowSerach, setShowSerach] = useState(false)
     const context = useContext(MyContext);
-    const { login, Cart, AllItems, userDetails } = context;
+    const { login, Cart, AllItems, userDetails, admin } = context;
     const [SearchQuery, setSearchQuery] = useState('');
     const [Result, setResult] = useState()
 
@@ -57,7 +57,7 @@ const Navbar = () => {
     ]
 
     return (
-        <nav className=" bg-white z-[99] shadow-lg   sticky top-0  ">
+        <nav className=" bg-white z-[99] shadow-lg  px-10  sticky top-0  ">
             {
                 FormShow ?
                     <AreYouSure from='Logout' message='Logout' setFormShow={setFormShow} />
@@ -66,7 +66,9 @@ const Navbar = () => {
             <div className="container h-20  mx-auto md:flex md:justify-between md:items-center relative">
                 <div className="flex items-center justify-between">
                     <Link to="/">
-                        LOGO
+                        <span className=' text-3xl font-bold italic'>
+                            QuickMart
+                        </span>
                     </Link>
                     <div>
                     </div>
@@ -100,12 +102,12 @@ const Navbar = () => {
                         <Link className="my-2  transition-colors duration-300 transform flex  hover:text-blue-500  md:mx-4 md:my-0 text-blue-700   animate-pulse" to="products"><span>New Arrivals!</span></Link>
                         {
                             !login &&
-                            <Link className="my-2 text-gray-700 transition-colors duration-300 transform  hover:text-blue-500  md:mx-4 md:my-0" to="/auth/login">SignUp</Link>
+                            <Link className="my-2  transition-colors duration-300 transform  hover:bg-blue-500  md:mx-4 md:my-0 bg-blue-400 py-1 px-4 text-white rounded-lg" to="/auth/login">SignUp</Link>
                         }
                         {
-                            login ?
-                                <Link className="my-2 text-gray-700 transition-colors duration-300 transform  hover:text-blue-500  md:mx-4 md:my-0" to={import.meta.env.VITE_ADMIN_ROUTE + '/home'}>Admin</Link>
-                                : null}
+                            login && admin &&
+                            <Link className="my-2 text-gray-700 transition-colors duration-300 transform  hover:text-blue-500  md:mx-4 md:my-0" to={import.meta.env.VITE_ADMIN_ROUTE + '/home'}>Admin</Link>
+                        }
                     </div>
 
                     <div className={`flex justify-start mt-10 md:mt-0 md:block ${!pathname.includes('view') ? 'visible' : 'invisible'}`}>
@@ -117,34 +119,40 @@ const Navbar = () => {
                             }
                         </Link>
                     </div>
-                    <div className=' px-3 ml-4 py-2 group hover:mt-[12.3rem]  cursor-default  '>
-                        <h1 className='bg-blue-200 px-4   flex items-center gap-x-4 text-center rounded-lg py-2'>
-                            <span className=' h-7 w-7 overflow-hidden'>
-                                <img src="../../../../Images/Home/avatar.png" alt="" />
-                            </span>
-                            <span className=' capitalize'>
-                                Hi,  {userDetails?.user?.name}
-                            </span>
-                            <span className=' text-slate-700 pt-[2px] group-hover:rotate-180 duration-300'>
-                                {DownArrow}
-                            </span>
-                        </h1>
-                        <ul className=' duration-500 mt-2  border  border-slate-300 rounded-lg px-2  group-hover:flex  bg-slate-50 p-2 hidden flex-col gap-y-1'>
-                            {
-                                DropDown.map((item, i) => {
-                                    return (
-                                        <li onClick={() => {
-                                            if (item.path) return navigate(item.path)
-                                            if (item.click) return setFormShow(!FormShow);
-                                        }
-                                        } key={i} className='py-2 hover:bg-blue-100 rounded-md pl-1 cursor-pointer'>
-                                            {item.name}
-                                        </li>
-                                    )
-                                })
-                            }
-                        </ul>
-                    </div>
+                    {
+                        login &&
+                        <div className=' px-3 ml-4 py-2 group hover:mt-[12.4rem]  cursor-default  '>
+                            <h1 className='bg-blue-200 px-4   flex items-center gap-x-4 text-center rounded-lg py-2'>
+                                <span className=' h-7 w-7 overflow-hidden'>
+                                    <img src="../../../../Images/Home/avatar.png" alt="" />
+                                </span>
+                                <span className=' capitalize pt-[1px] '>
+                                    Hi,
+                                    {userDetails?.user?.name.length > 10 ?
+                                        userDetails?.user?.name.slice(0, 7) + '...' :
+                                        userDetails?.user?.name}
+                                </span>
+                                <span className=' text-slate-700 pt-[2px] group-hover:rotate-180 duration-300'>
+                                    {DownArrow}
+                                </span>
+                            </h1>
+                            <ul className=' duration-500 mt-2 border  border-slate-300 rounded-lg px-2  group-hover:flex  bg-slate-50 p-2 hidden flex-col gap-y-1'>
+                                {
+                                    DropDown.map((item, i) => {
+                                        return (
+                                            <li onClick={() => {
+                                                if (item.path) return navigate(item.path)
+                                                if (item.click) return setFormShow(!FormShow);
+                                            }
+                                            } key={i} className='py-2 hover:bg-blue-100 rounded-md px-3 cursor-pointer'>
+                                                {item.name}
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </div>
+                    }
                 </div>
             </div>
         </nav >

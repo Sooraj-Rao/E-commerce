@@ -73,7 +73,6 @@ const Products = () => {
         categoryParam || AllItems.length == 0 ? FetchData() : setData(AllItems);
     }, [categoryParam])
 
-    console.log(DisplayRow);
 
     return (
         <div className="">
@@ -83,10 +82,10 @@ const Products = () => {
                 <div className=" flex flex-wrap gap-10 justify-center">
                     {
                         Data?.map((item, i) => {
-                            const { imageUrl, name, price, _id, description } = item;
+                            const { imageUrl, name, price, _id, description, stock } = item;
                             return (
                                 <>
-                                    <div key={i} className={`w-full group  py-4  border border-gray-200 rounded-lg shadow 
+                                    <div key={i} className={`w-full group  py-4  cursor-default border border-gray-200 rounded-lg shadow 
                                     ${!DisplayRow ? 'max-w-xs  min-w-[20rem]' : ' flex justify-start gap-x-10'}
                                     `}>
                                         <div className={` h-60  
@@ -104,7 +103,12 @@ const Products = () => {
                                                 <p className="text-xs ml-3 font-semibold text-gray-600 ">(73 people rated)</p>
                                             </div>
                                             <div className={`${DisplayRow ? 'block mb-5' : 'hidden'}`}>
-                                                {description}
+                                                <h1>
+                                                    {description}
+                                                </h1>
+                                                <h1 className=" my-3">
+                                                    {stock > 0 ? <span className=" text-green-800 font-medium">Item Available in Stock</span> : <span className=" text-red-400">Out in Stock</span>}
+                                                </h1>
                                             </div>
                                             <div className="flex items-center justify-between">
                                                 <span className="text-3xl font-bold text-gray-900 ">{Rupee}{price}</span>

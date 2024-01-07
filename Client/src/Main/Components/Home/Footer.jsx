@@ -3,14 +3,14 @@ import { Discord, FB, Github, Twitter } from "../../../../public/SVG/IconsSvg"
 
 const Footer = () => {
     return (
-        <div className=" shadow-[0px_-5px_10px_1px] shadow-slate-300 my-5">
+        <div className=" border-t-2 my-5">
             <footer className="bg-white ">
                 <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
                     <div className="md:flex md:justify-between">
                         <div className="mb-6 md:mb-0">
-                            <a href="" className="flex items-center">
-                                LOGO
-                            </a>
+                        <span className=' text-2xl font-bold italic'>
+                            QuickMart
+                        </span>
                         </div>
                         <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                             <div>

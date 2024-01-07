@@ -36,6 +36,15 @@ const Filter = ({ setFilterPrice }) => {
                                 <h2 className="text-2xl font-bold "> Categories</h2>
                                 <div className="w-16 pb-2 mb-6 border-b border-rose-600 "></div>
                                 <ul>
+                                    <Link to={'/products'}>
+                                        <li className="  rounded-md px-2  ">
+                                            <label className={`flex items-center group py-1 pl-2 cursor-pointer rounded-md  hover:bg-slate-100 transform duration-100 hover:text-blue-700  
+                                                        ${!Search.get('category') ? ' text-blue-800 bg-slate-200' : ' text-gray-800'}
+                                                        `}>
+                                                <span className=" text-base  ">All</span>
+                                            </label>
+                                        </li>
+                                    </Link>
                                     {
                                         CategoryData.map((item, i) => {
                                             const Item = Object.keys(item)
