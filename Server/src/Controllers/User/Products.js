@@ -6,7 +6,7 @@ export const getProducts = async (req, res) => {
     const { category } = req.params;
     const isParam = category == "all" ? "" : category;
     const productList = await Product.find(
-      isParam ? { category: { $regex: isParam, $options: "i" } } : null
+      isParam ? { category:isParam } : null
     );
     if (productList.length != 0) {
       return res.json({ error: false, data: productList, message: "success" });
@@ -23,7 +23,7 @@ export const getSingleProduct = async (req, res) => {
   try {
     let { name } = req.params;
     name = name.replaceAll("-", " ");
-    const productData = await Product.findOne({ name: name });
+    const productData = await Product.findOne({ name: name  });
     if (!productData) {
       return res.json({ error: true, message: GetProdMsg.NoExist, data: null });
     }

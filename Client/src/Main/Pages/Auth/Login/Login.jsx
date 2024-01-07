@@ -16,6 +16,7 @@ const Login = () => {
         email: '',
         password: '',
     })
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setInput({ ...Input, [name]: value })

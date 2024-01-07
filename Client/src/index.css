@@ -2,9 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.hide-scrollbar::-webkit-scrollbar {
+.hide-bar::-webkit-scrollbar{
   display: none;
 }
 .ModalBg{
   background: rgba(0, 0, 0, 0.611);
 }
+

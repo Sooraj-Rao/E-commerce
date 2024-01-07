@@ -31,7 +31,7 @@ export const getOrderInfo = async (req, res) => {
     if (!email) {
       res.json({ error: true, message: "invalid email" });
     }
-    const orderInfo =await Order.findOne({ email });
+    const orderInfo = await Order.findOne({ email });
     if (orderInfo) {
       res.json({ error: false, message: "success", data: orderInfo });
     } else {

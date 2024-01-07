@@ -4,10 +4,8 @@ import toast, { Toaster } from "react-hot-toast"
 import axios from 'axios'
 import { MyContext } from "../../Context/Context"
 import { Link, useParams, useSearchParams } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
-import { addToCart } from "../../Redux/CartSlice"
-import { addToWishList } from "../../Redux/WishListSlice"
 import ScrollTop from "../../Constant/ScrollTo/ScrollTop"
+import { Rupee } from "../../Constant/Messages/Messages"
 
 const ProductInfo = () => {
     const { item } = useParams()
@@ -17,7 +15,6 @@ const ProductInfo = () => {
         cart: false, wish: false
     })
 
-    const { id } = useParams()
     const context = useContext(MyContext);
     const { Server, UserItems, setUserItems, Cart, setCart, WishList, setWishList } = context;
 
@@ -30,9 +27,7 @@ const ProductInfo = () => {
     const AddWishList = (item) => {
         const IsWishList = WishList.find((prod) => prod._id === item._id);
         if (IsWishList) {
-            console.log(WishList);
             const RemoveWish = WishList.filter((prod) => prod._id !== item._id);
-            console.log(RemoveWish);
             setWishList(RemoveWish)
             toast.success('Removed from WishList')
         } else {
@@ -59,17 +54,16 @@ const ProductInfo = () => {
     }
 
     const CheckIsPresent = () => {
-        const IsCart = Cart.find((item) => item._id == id);
-        const IsWishList = WishList.find((item) => item._id == id);
+        const IsCart = Cart.find((item) => item._id == Data?._id);
+        const IsWishList = WishList.find((item) => item._id == Data?._id);
         setIsPresent({ cart: IsCart ? true : false, wish: IsWishList ? true : false })
     }
 
     useEffect(() => {
-        FetchProduct();
+        !Data ? FetchProduct() : '';
         CheckIsPresent();
-    }, [ Cart, WishList,item])
-
-
+    }, [Cart, WishList, item,Data])
+console.log(WishList);
 
     const { description, imageUrl, name, price, stock, _id } = Data ? Data : ''
 
@@ -131,9 +125,9 @@ const ProductInfo = () => {
                                     </div>
                                     <p className="max-w-md mb-8 text-gray-700 ">{description} </p>
                                     <p className="inline-block mb-8 text-4xl font-bold text-gray-700  ">
-                                        <span>${price}</span>
+                                        <span>{Rupee}{price}</span>
                                         <span
-                                            className="text-base ml-3 font-normal text-gray-500 line-through ">${price + 220 * 5}</span>
+                                            className="text-base ml-3 font-normal text-gray-500 line-through ">{Rupee}{price + 220 * 5}</span>
                                     </p>
                                     <p className="text-green-600 ">{stock} in stock</p>
                                 </div>

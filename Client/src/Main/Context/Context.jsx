@@ -23,11 +23,10 @@ const Context = ({ children }) => {
             address1: '',
             address2: ''
         }
-
     )
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
     const Server = import.meta.env.VITE_SERVER;
-    const theme = 'Dark'
+    const theme = 'Light'
     const isAdmin = import.meta.env.VITE_ME;
 
     useEffect(() => {

@@ -1,6 +1,4 @@
-import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
-import { addToCart } from "../../Redux/CartSlice";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { MyContext } from '../../Context/Context'
@@ -14,15 +12,16 @@ const Latest = () => {
     const { Server, AllItems } = context;
 
     const Latest = AllItems.filter((item, i) => {
-        return item?.name?.includes('b')
+        return item?.name?.includes('p')
     })
 
     return (
         <div className=" mx-5">
+            <img src="../../../../Images/Home/banner2.jpg" alt="" />
             <h1 className=" font-semibold text-2xl pb-8 ">Our Lastest Collection</h1>
             <div className=" flex flex-wrap gap-10 justify-center">
                 {
-                    Latest?.slice(0, 6).map((item, i) => {
+                    Latest?.slice(0, 8).map((item, i) => {
                         const { name, price, imageUrl, _id } = item;
                         return (
                             <Link to={'/p/' + name.replaceAll(' ', '-')} key={i} className="w-full max-w-xs group     border border-gray-300 rounded-lg  ">

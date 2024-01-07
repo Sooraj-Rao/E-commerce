@@ -1,16 +1,15 @@
 import { useContext, useEffect, useMemo, useState } from "react"
 import { CartIcon, DecrementIcon, DeteteIcon, HeartIcon, IncremnetIcon } from "../../../../public/SVG/IconsSvg"
-import { useDispatch, useSelector } from "react-redux"
-import { addToCart } from "../../Redux/CartSlice"
 import { MyContext } from "../../Context/Context"
 import ScrollTop from "../../Constant/ScrollTo/ScrollTop"
 import AreYouSure from "../../Modals/AreYouSure"
 import toast from "react-hot-toast";
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import emptyCart from '../../../../public/Images/Shop/Empty-cart.jpg'
+import { Rupee } from "../../Constant/Messages/Messages"
 
-const Cart = () => {
-  const context = useContext(MyContext);
+const CartItem = () => {
+  const navigate = useNavigate()
   const [Total, setTotal] = useState(null)
   const [ConfirmDelete, setConfirmDelete] = useState({
     id: null,
@@ -18,12 +17,14 @@ const Cart = () => {
   });
   const Disocunt = Total ? ((2 / 100) * Total).toFixed() : '';
 
+  const context = useContext(MyContext);
   const { Server, UserItems, setUserItems, Cart, setCart, WishList, setWishList } = context;
 
   const { param } = useParams();
   let Title = param == 'cart' ? 'wishlist' : 'cart'
   const RenderItem = { 'cart': Cart, 'wishlist': WishList };
   const Render = RenderItem[param];
+  
   const handleCart = (id, evt) => {
     setCart((prevCart) => {
       const updatedCart = prevCart.map((item) => {
@@ -43,18 +44,13 @@ const Cart = () => {
   };
 
   const RemoveProduct = (id) => {
-    if (param == 'cart') {
-      const update = Cart.filter((item) => item._id !== id);
-      setCart(update)
-      setConfirmDelete({ id: null, confirm: false })
-      toast.success(`Successfully removed item from ${param}`);
-    } else {
-      const update = WishList.filter((item) => item._id !== id);
-      setWishList(update)
-      setConfirmDelete({ id: null, confirm: false })
-      toast.success(`Successfully removed item from ${param}`);
-    }
+    const RenderItem = param == 'cart' ? Cart : WishList;
+    const update = RenderItem.filter((item) => item._id !== id);
+    RenderItem == Cart ? setCart(update) : setWishList(update)
+    setConfirmDelete({ id: null, confirm: false })
+    toast.success(`Successfully removed item from ${param}`);
   }
+
   const CalculateTotal = () => {
     let Total = 0;
     setTotal(() => {
@@ -67,10 +63,11 @@ const Cart = () => {
     })
   }
 
-  useMemo(() => {
+  useEffect(() => {
     ConfirmDelete.id && ConfirmDelete.confirm ? RemoveProduct(ConfirmDelete.id) : ''
     CalculateTotal()
-  }, [Cart, ConfirmDelete.confirm])
+  }, [Cart, ConfirmDelete])
+
 
   const DeleteCartItemProps = {
     from: 'cart',
@@ -88,7 +85,7 @@ const Cart = () => {
             <AreYouSure {...DeleteCartItemProps} /> : ''
         }
         <div>
-          <Link to={'/view/' + Title} className="  capitalize flex gap-x-2 text-base fixed right-20 mt-5 rounded-md bg-blue-600 hover:bg-blue-700  text-slate-100 font-semibold px-4 py-2">
+          <Link to={'/view/' + Title} className="  capitalize flex gap-x-2 text-base fixed right-20 mt-5 rounded-md bg-blue-600 font-semibold hover:bg-blue-700   text-slate-100  px-4 py-2">
             <span>
               {Title}
             </span>
@@ -124,7 +121,7 @@ const Cart = () => {
                     const { category, imageUrl, name, price, quantity, stock, _id } = item;
                     return (
                       <li key={i} className="flex items-center  justify-between gap-4 border-b-2 py-4 ">
-                        <Link to={'/p/' + _id}>
+                        <Link to={'/p/' + name.replaceAll(' ', '-')}>
                           <div className=" flex group   w-[35rem] ">
                             <img
                               src={imageUrl}
@@ -132,11 +129,11 @@ const Cart = () => {
                               className="h-28 w-28 rounded object-contain mr-5"
                             />
                             <div className="mt-0.5 space-y-px  text-sm text-gray-600">
-                              <h3 className="text-sm md:text-xl capitalize text-gray-900 group-hover:text-blue-500">{name}</h3>
+                              <h3 className="text-sm md:text-xl font-semibold capitalize text-gray-900 group-hover:text-blue-700">{name}</h3>
                               <div>
                                 <h1 className="my-1  capitalize">{category}</h1>
-                                <h1 className="">{stock > 0 ? <p className=" text-green-500">Item in stock</p> : <p className=" text-red-500">Item Out of stock</p>}</h1>
-                                <h3 className="text-sm md:text-xl capitalize text-gray-900  my-2 font-semibold ">Rs.{price}</h3>
+                                <h1 className="">{stock > 0 ? <p className=" text-green-600">Item in stock</p> : <p className=" text-red-500">Item Out of stock</p>}</h1>
+                                <h3 className="text-sm md:text-xl capitalize text-gray-900  my-2 font-semibold ">{Rupee} {price}</h3>
                               </div>
                             </div>
                             <div>
@@ -174,21 +171,21 @@ const Cart = () => {
                     <div className="space-y-0.5 text-sm text-gray-700">
                       <div className="flex justify-between">
                         <h1>Subtotal</h1>
-                        <h1 className=" font-bold text-lg">Rs. {Total}</h1>
+                        <h1 className=" font-bold text-lg">{Rupee} {Total}</h1>
                       </div>
 
                       <div className="flex justify-between">
                         <h1>Discount</h1>
-                        <h1>{Disocunt} <span className=" text-xs pl-2">(2%)</span>  </h1>
+                        <h1>{Rupee} {Disocunt} <span className=" text-xs pl-2">(2%)</span>  </h1>
                       </div>
 
                       <div className="flex justify-between !text-base font-medium">
                         <h1>Total</h1>
                         <h1>
                           <span className="font-bold text-lg mr-3">
-                            Rs. {Total - Disocunt}
+                            {Rupee} {Total - Disocunt}
                           </span>
-                          <span className=" text-xs line-through ">{Total}</span>
+                          <span className=" text-xs line-through ">{Rupee} {Total}</span>
                         </h1>
                       </div>
                     </div>
@@ -217,15 +214,12 @@ const Cart = () => {
                     </div>
 
                     <div className="flex justify-end">
-                      <Link
-                        to={'/checkout/details'}
-                        className="block rounded bg-blue-700 px-5 py-2 text-sm text-gray-100 transition "
+                      <button
+                        onClick={() => navigate('/checkout/details')}
+                        className="block rounded-md bg-blue-700 px-5 py-2 font-semibold text-gray-100 transition "
                       >
                         Checkout
-                      </Link>
-                      {/* <button onClick={show}>
-                        Buy
-                      </button> */}
+                      </button>
                     </div>
                   </div>
                 </div> : ''
@@ -239,4 +233,4 @@ const Cart = () => {
   )
 }
 
-export default Cart
+export default CartItem

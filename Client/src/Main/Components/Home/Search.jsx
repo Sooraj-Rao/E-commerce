@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
-import { ArrowIcon } from '../../../../public/SVG/IconsSvg';
 
 const SearchResult = (props) => {
     const { Result, setResult, setSearchQuery } = props;
     return (
-        <div onClick={() => setSearchQuery('')} className='   absolute  top-16 left-0 flex justify-center h-screen w-screen ModalBg'>
+        <div onClick={() => setSearchQuery('')} className='   absolute  top-20 left-0 flex justify-center h-screen w-screen ModalBg'>
             <div className=' w-1/2 relative rounded-2xl mt-2 h-fit  bg-gray-100  '>
                 {
                     Result?.length != 0 ?

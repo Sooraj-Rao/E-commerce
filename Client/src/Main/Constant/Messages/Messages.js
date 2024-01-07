@@ -4,3 +4,5 @@ export const AuthMessage = {
   AllMandatory: "All fields are mandatory",
   InvalidEmail: "Invalid Email",
 };
+
+export const Rupee = "₹";

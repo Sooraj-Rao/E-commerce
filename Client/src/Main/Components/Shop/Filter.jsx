@@ -1,50 +1,83 @@
-import { useState } from "react"
+import { useState } from 'react';
+import { Link, useSearchParams, useLocation } from 'react-router-dom';
+import { CategoryData } from '../../../../public/Constants/Data'
+import { ArrowIcon } from '../../../../public/SVG/IconsSvg';
 
-const Filter = () => {
-    const [price, setPrice] = useState(100)
-    const [DropDown, setDropDown] = useState({
-        one: false,
-        two: false
+const Filter = ({ setFilterPrice }) => {
+    const [Amount, setAmount] = useState({
+        from: 100, to: 1000
     })
+    const [Search, setSearch] = useSearchParams();
+    const location = useLocation();
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setAmount((prev) => ({ ...prev, [name]: value }))
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const existingParams = new URLSearchParams(location.search);
+        existingParams.set('min', Amount.from);
+        existingParams.set('max', Amount.to);
+        setSearch(existingParams);
+
+        setFilterPrice({ min: Amount.from, max: Amount.to });
+    };
+
 
     return (
-        <div className=" fixed left-5 w-72 my-10">
-            <div>
-                <button onClick={() => setDropDown({ ...DropDown, one: !DropDown.one })} type="button" className="flex items-center justify-between w-full p-2 font-medium  text-gray-500 border border-b-0 border-gray-200   hover:bg-gray-100 gap-3"  >
-                    <h1>Filters</h1>
-                    <svg className={`w-3 h-3 rotate-180 shrink-0 ${!DropDown.one ? 'rotate-180' : 'rotate-0'}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5" />
-                    </svg>
-                </button>
-                <div className={`${DropDown.one ? 'block' : 'hidden'}`} >
-                    <div className="p-5 border border-b-0 border-gray-200  ">
-                        Price:
-                        <span className=" ml-2">100</span>
-                        <input value={price} className=" mx-2" onChange={(e) => setPrice(e.target.value)} type="range" min="100" max="10000" />
-                        <span>10k</span>
-                        <h1 className=" text-center">{price.length > 3 ? price.slice(0, -3) + 'k' : price}</h1>
-                    </div>
-                </div>
-                <button onClick={() => setDropDown({ ...DropDown, two: !DropDown.two })} type="button" className="flex items-center justify-between w-full p-2 font-medium  text-gray-500 border border-b-0 border-gray-200    hover:bg-gray-100 gap-3"  >
-                    <h1>All Category</h1>
-                    <svg className={`w-3 h-3  shrink-0 ${!DropDown.two ? 'rotate-180' : 'rotate-0'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5" />
-                    </svg>
-                </button>
-                <div className={`${DropDown.two ? 'block' : 'hidden'}`} >
-                    <div className="p-5 border border-b-0 border-gray-200  ">
-                        <h1>Filtering bro</h1>
-                        <h1>Filtering bro</h1>
-                        <h1>Filtering bro</h1>
-                        <h1>Filtering bro</h1>
-                        <h1>Filtering bro</h1>
-                        <h1>Filtering bro</h1>
-                        <h1>Filtering bro</h1>
-                    </div>
-                </div>
-            </div>
+        <>
+            <section className=" sticky  left-0 w-[20rem]    overflow-hidden  font-poppins  ">
+                <div className="px-4 py-4 mx-auto h-full overflow-y-auto       ">
+                    <div className="flex flex-wrap  -mx-3 ">
+                        <div className="w-full pr-2     lg:block  ">
+                            <div className="p-4 mb-5 bg-white border border-gray-200  ">
+                                <h2 className="text-2xl font-bold "> Categories</h2>
+                                <div className="w-16 pb-2 mb-6 border-b border-rose-600 "></div>
+                                <ul>
+                                    {
+                                        CategoryData.map((item, i) => {
+                                            const Item = Object.keys(item)
+                                            return (
+                                                <Link key={i} to={'/products?category=' + Item}  >
+                                                    <li className="  rounded-md px-2  ">
+                                                        <label className={`flex items-center group py-1 pl-2 cursor-pointer rounded-md  hover:bg-slate-100 transform duration-100 hover:text-blue-700  
+                                                        ${Search.get('category') == Item ? ' text-blue-800 bg-slate-200' : ' text-gray-800'}
+                                                        `}>
+                                                            <span className=" text-base  ">{Item}</span>
+                                                        </label>
+                                                    </li>
+                                                </Link>
 
-        </div>
+                                            )
+                                        })
+                                    }
+                                </ul>
+                            </div>
+                            <div className="p-4 mb-5 bg-white border border-gray-200  ">
+                                <h2 className="text-2xl font-bold ">Price</h2>
+                                <div className="w-16 pb-2 mb-6 border-b border-rose-600 "></div>
+                                <div>
+                                    <h1 className=' -mt-2  text-center text-blue-700 '>Select Price range</h1>
+                                    <div className=' flex justify-between'>
+                                        <h1>Min</h1>
+                                        <h1>Max</h1>
+                                    </div>
+                                    <form onSubmit={handleSubmit} className=' text-center'>
+                                        <div className="flex  justify-between ">
+                                            <input type='number' name='from' value={Amount.from} onChange={handleChange} className=" pl-2 w-20 border-2 rounded   outline-none focus:ring-blue-300 focus:border-blue-400 focus:ring-1  border-slate-400" />
+                                            <input type='number' name='to' value={Amount.to} onChange={handleChange} className=" pl-2 w-20 border-2 rounded  outline-none focus:ring-blue-300 focus:border-blue-400 focus:ring-1  border-slate-400" />
+                                        </div>
+                                        <button className='  rounded-md  px-4 mt-4 bg-blue-600 text-white py-1'>Go</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section >
+        </>
     )
 }
 

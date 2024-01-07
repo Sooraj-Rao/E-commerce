@@ -5,7 +5,7 @@ const Category = () => {
     return (
         <div className=" py-2 mx-5 my-5">
             <h1 className=" text-2xl pb-4 font-semibold ">Explore Categories</h1>
-            <div className=" h-80 w-full flex overflow-x-scroll pb-10 hide-scrollbar">
+            <div className=" h-80 w-full flex overflow-x-scroll pb-10 hide-bar">
                 <div className="  flex flex-nowrap gap-5 ">
                     {
                         CategoryData.map((item, i) => {
