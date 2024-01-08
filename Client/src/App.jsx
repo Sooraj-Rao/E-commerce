@@ -13,10 +13,12 @@ import { MyContext } from "./Main/Context/Context";
 import CartItem from "./Main/Pages/Cart/Cart";
 import Manage from './Main/Pages/Manage/Manage'
 import Instruction from "./Main/Pages/Instruction/Instruction";
+import NotFound from './Main/Components/Home/NotFound'
 
 const App = () => {
 
   const { login, admin } = useContext(MyContext);
+
   return (
     <div>
       <Toaster
@@ -54,7 +56,7 @@ const App = () => {
               <Route path="/manage/:param" element={<Manage />} />
               <Route path="/i/:param" element={<Instruction />} />
               <Route path="/checkout/:param" element={login ? <Checkout /> : <Login />} />
-              <Route path="/*" element={<h1>Invalid Page Go Back</h1>} />
+              <Route path="/*" element={<NotFound />} />
             </Routes>
           </Layout>
         </BrowserRouter>

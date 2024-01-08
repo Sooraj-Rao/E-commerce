@@ -5,9 +5,8 @@ import { MyContext } from '../../Context/Context';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-
 const Invoice = () => {
-    const [Data, setData] = useState()
+    const [Data, setData] = useState();
     const navigate = useNavigate();
     const context = useContext(MyContext);
     const { Server, userDetails } = context;

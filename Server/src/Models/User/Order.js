@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const AddressSchema = new Schema({
-  name:{
+  name: {
     type: String,
     required: true,
   },
@@ -45,12 +45,6 @@ const orderSchema = new Schema(
       required: true,
       type: Date,
     },
-    email: {
-      required: true,
-      type: String,
-      lowercase: true,
-      trim: true,
-    },
     paymentId: {
       required: true,
       type: String,
@@ -61,6 +55,11 @@ const orderSchema = new Schema(
     },
     amountInfo: {
       type: AmountSchema,
+      required: true,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
       required: true,
     },
     cart: [

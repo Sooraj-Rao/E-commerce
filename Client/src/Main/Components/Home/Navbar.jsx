@@ -15,7 +15,6 @@ const Navbar = () => {
     const { login, Cart, AllItems, userDetails, admin } = context;
     const [SearchQuery, setSearchQuery] = useState('');
     const [Result, setResult] = useState()
-
     const handleChange = (e) => {
         let { value } = e.target;
         setSearchQuery(value)
@@ -33,7 +32,7 @@ const Navbar = () => {
     }
 
     useEffect(() => {
-        SearchQuery && ShowResult()
+        SearchQuery && ShowResult();
     }, [SearchQuery])
 
     const DropDown = [
@@ -41,11 +40,6 @@ const Navbar = () => {
             name: 'Orders',
             path: '/manage/order'
         },
-        {
-            name: 'Bills',
-            path: '/manage/Bills'
-        },
-
         {
             name: 'Profile',
             path: '/manage/Profile'
@@ -57,22 +51,39 @@ const Navbar = () => {
     ]
 
     return (
-        <nav className=" bg-white z-[99] shadow-lg  px-10  sticky top-0  ">
+        <nav className=" bg-white z-[99]  shadow-lg    sticky top-0  ">
             {
                 FormShow ?
                     <AreYouSure from='Logout' message='Logout' setFormShow={setFormShow} />
                     : null
             }
-            <div className="container h-20  mx-auto md:flex md:justify-between md:items-center relative">
-                <div className="flex items-center justify-between">
-                    <Link to="/">
-                        <span className=' text-3xl font-bold italic'>
-                            QuickMart
-                        </span>
-                    </Link>
-                    <div>
+            <div className=" h-20   md:flex md:justify-between   md:items-center  relative">
+                <div className=' flex md:pt-0 pt-4  justify-between  lg:w-full  '>
+                    <div className="flex  sm:gap-x-10 gap-x-3 items-center justify-between">
+                        <Link to="/">
+                            <span className=' pl-4 sm:text-3xl text-lg font-bold italic'>
+                                <abbr className=' no-underline' title="
+                         logo">
+                                    QuickMart
+                                </abbr>
+                            </span>
+                        </Link>
+                        <div>
+                        </div>
                     </div>
-                    <div className="flex lg:hidden">
+                    <div className=' lg:w-[20rem] xl:w-[30rem] sm:w-40  '>
+                        <ul className='outline-none border-gray-400 overflow-hidden h-10 pl-2 flex items-center justify-between rounded-md border'>
+                            <input autoFocus value={SearchQuery} onChange={handleChange} type="text" placeholder='eg -books' className=' capitalize outline-none w-[90%]  ' />
+                            <span className=' bg-blue-100 rounded-md p-2'>
+                                {Search}
+                            </span>
+                            {SearchQuery &&
+                                <SearchResult Result={Result} setResult={setResult} setSearchQuery={setSearchQuery} />
+                            }
+                        </ul>
+
+                    </div>
+                    <div className="flex pr-4 md:hidden">
                         <button onClick={() => setMobileMenu(!MobileMenu)} className="text-gray-500  hover:text-gray-600  focus:outline-none focus:text-gray-600 " aria-label="toggle menu">
                             {
                                 MobileMenu ?
@@ -83,26 +94,16 @@ const Navbar = () => {
                         </button>
                     </div>
                 </div>
-                <div className=' w-1/4 '>
-                    <ul className='outline-none border-gray-400 overflow-hidden h-10 pl-2 flex items-center justify-between rounded-md border'>
-                        <input autoFocus value={SearchQuery} onChange={handleChange} type="text" placeholder='eg -books' className=' capitalize outline-none w-[90%]  ' />
-                        <span className=' bg-blue-100 rounded-md p-2'>
-                            {Search}
-                        </span>
-                        {SearchQuery &&
-                            <SearchResult Result={Result} setResult={setResult} setSearchQuery={setSearchQuery} />
-                        }
-                    </ul>
-                </div>
-
-                <div className={`absolute inset-x-0 z-20 w-full py-4 transition-all duration-300 ease-in-out bg-gray-300  md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center overflow-hidden ${MobileMenu ? 'md:w-auto w-full px-6' : 'md:w-auto w-0'} `}>
-                    <div className={`  flex-col md:flex-row items-center md:mx-6 flex `}>
+                <div onClick={() => MobileMenu ? setMobileMenu(false) : null}
+                    className={` md:w-full  md:justify-end bg-slate-300 md:pr-8   overflow-hidden  z-20 whitespace-nowrap py-4  transition-all duration-300 ease-in-out   md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent  md:opacity-100 md:translate-x-0 md:flex md:items-center 
+                 ${MobileMenu ? ' w-full ' : ' w-0 '} `}>
+                    <div className={`  flex-col md:flex-row items-center    flex `}>
                         <Link className="my-2 text-gray-700 transition-colors duration-300 transform  hover:text-blue-500  md:mx-4 md:my-0" to="/">Home</Link>
                         <Link className="my-2 text-gray-700 transition-colors duration-300 transform  hover:text-blue-500  md:mx-4 md:my-0" to="products">Shop</Link>
                         <Link className="my-2  transition-colors duration-300 transform flex  hover:text-blue-500  md:mx-4 md:my-0 text-blue-700   animate-pulse" to="products"><span>New Arrivals!</span></Link>
                         {
                             !login &&
-                            <Link className="my-2  transition-colors duration-300 transform  hover:bg-blue-500  md:mx-4 md:my-0 bg-blue-400 py-1 px-4 text-white rounded-lg" to="/auth/login">SignUp</Link>
+                            <Link className="my-2  transition-colors duration-300 transform  hover:bg-blue-500  md:mx-4 md:my-0 bg-blue-400 py-1  px-4 text-white rounded-lg" to="/auth/login">SignUp</Link>
                         }
                         {
                             login && admin &&
@@ -110,7 +111,7 @@ const Navbar = () => {
                         }
                     </div>
 
-                    <div className={`flex justify-start mt-10 md:mt-0 md:block ${!pathname.includes('view') ? 'visible' : 'invisible'}`}>
+                    <div className={`flex justify-center ml-4 mt-10 md:mt-0 md:block ${!pathname.includes('view') ? 'visible' : 'invisible'}`}>
                         <Link className="relative text-gray-700 transition-colors duration-300 transform  hover:text-gray-600 " to={'view/cart'}>
                             {CartIcon}
                             {
@@ -121,7 +122,7 @@ const Navbar = () => {
                     </div>
                     {
                         login &&
-                        <div className=' px-3 ml-4 py-2 group hover:mt-[12.4rem]  cursor-default  '>
+                        <div className=' px-3 ml-4 py-2 group hover:mt-[9.6rem]  cursor-default  '>
                             <h1 className='bg-blue-200 px-4   flex items-center gap-x-4 text-center rounded-lg py-2'>
                                 <span className=' h-7 w-7 overflow-hidden'>
                                     <img src="../../../../Images/Home/avatar.png" alt="" />

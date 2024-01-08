@@ -17,8 +17,7 @@ const Payment = () => {
   const Disocunt = total ? ((2 / 100) * total)?.toFixed() : '';
 
   const { address1, pincode } = AddressInfo || '';
-  const { email, phone, name } = userDetails?.user || '';
-
+  const { phone, name } = userDetails?.user || '';
   const addressInfo = {
     name: name,
     address: address1,
@@ -63,7 +62,6 @@ const Payment = () => {
           }
         ),
         amountInfo: AmountDetails,
-        email: email,
         token: userDetails?.token,
         paymentId: paymentId
       }
@@ -82,6 +80,9 @@ const Payment = () => {
 
 
   const MakePayment = () => {
+    if (!name || !phone || !userDetails?.token) {
+      return toast.error('Unauthorized Access,Login Again')
+    }
     show();
   }
 
@@ -91,7 +92,10 @@ const Payment = () => {
     }
     try {
       const res = await axios.post(Server + 'order/payment', orderInfo)
-      console.log(res);
+      const { error } = res.data;
+      if (error) {
+        return toast.error('UnAuthorized.Please Login Again! ')
+      }
     } catch (error) {
       console.log(error);
     }

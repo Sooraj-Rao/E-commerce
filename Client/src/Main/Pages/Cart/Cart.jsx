@@ -24,7 +24,7 @@ const CartItem = () => {
   let Title = param == 'cart' ? 'wishlist' : 'cart'
   const RenderItem = { 'cart': Cart, 'wishlist': WishList };
   const Render = RenderItem[param];
-  
+
   const handleCart = (id, evt) => {
     setCart((prevCart) => {
       const updatedCart = prevCart.map((item) => {
@@ -51,16 +51,13 @@ const CartItem = () => {
     toast.success(`Successfully removed item from ${param}`);
   }
 
+  let Totalcount = 0;
   const CalculateTotal = () => {
-    let Total = 0;
-    setTotal(() => {
-      Cart.map((item) => {
-        let amt = item.price * item.quantity;
-        Total += amt
-        return Total
-      })
-      return Total
+    Cart.map((item) => {
+      let amt = item.price * item.quantity;
+      Totalcount += amt
     })
+    setTotal((prev) => Totalcount)
   }
 
   useEffect(() => {
@@ -85,7 +82,7 @@ const CartItem = () => {
             <AreYouSure {...DeleteCartItemProps} /> : ''
         }
         <div>
-          <Link to={'/view/' + Title} className="  capitalize flex gap-x-2 text-base fixed right-20 mt-5 rounded-md bg-blue-600 font-semibold hover:bg-blue-700   text-slate-100  px-4 py-2">
+          <Link to={'/view/' + Title} className="  capitalize flex gap-x-2 text-sm md:text-base fixed md:right-20 md:mt-5 mt-3 right-3 rounded-md bg-blue-600 font-semibold hover:bg-blue-700   text-slate-100  md:px-4 px-2 md:py-2 py-1">
             <span>
               {Title}
             </span>
@@ -96,7 +93,7 @@ const CartItem = () => {
                   HeartIcon
               }
             </span>
-            <span className={` absolute text-base -right-3 border border-white -top-3 text-white bg-blue-500 px-2 rounded-full ${RenderItem[Title]?.length > 0 ? ' visible' : 'invisible'}`}>
+            <span className={` text-sm absolute  -right-3 border border-white -top-3 text-white bg-blue-500 px-2 rounded-full ${RenderItem[Title]?.length > 0 ? ' visible' : 'invisible'}`}>
               {RenderItem[Title]?.length}
             </span>
           </Link>
@@ -104,7 +101,7 @@ const CartItem = () => {
         <div className="mx-auto  min-h-80  px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
           <div className="mx-auto max-w-5xl">
             <header className="text-center">
-              <h1 className="text-xl font-bold text-gray-900 sm:text-3xl">
+              <h1 className="text-xl md:mt-0 mt-6 font-bold text-gray-900 sm:text-3xl">
                 {Render?.length != 0 ? `Your ${param} Items` : `Your ${param} is Empty..Add items to ${param}`}
               </h1>
             </header>
@@ -120,13 +117,13 @@ const CartItem = () => {
                   Render?.map((item, i) => {
                     const { category, imageUrl, name, price, quantity, stock, _id } = item;
                     return (
-                      <li key={i} className="flex items-center  justify-between gap-4 border-b-2 py-4 ">
+                      <li key={i} className="flex items-center  flex-col md:flex-row  justify-between gap-4 border-b-2 py-4 ">
                         <Link to={'/p/' + name.replaceAll(' ', '-')}>
-                          <div className=" flex group   w-[35rem] ">
+                          <div className=" flex group  md:w-[35rem] ">
                             <img
                               src={imageUrl}
                               alt=""
-                              className="h-28 w-28 rounded object-contain mr-5"
+                              className="lg:h-28 lg:w-28 w-14 rounded object-contain mr-5"
                             />
                             <div className="mt-0.5 space-y-px  text-sm text-gray-600">
                               <h3 className="text-sm md:text-xl font-semibold capitalize text-gray-900 group-hover:text-blue-700">{name}</h3>

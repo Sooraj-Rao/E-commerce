@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 const SearchResult = (props) => {
     const { Result, setResult, setSearchQuery } = props;
     return (
-        <div onClick={() => setSearchQuery('')} className='   absolute  top-20 left-0 flex justify-center h-screen w-screen ModalBg'>
-            <div className=' w-1/2 relative rounded-2xl mt-2 h-fit  bg-gray-100  '>
+        <div onClick={() => setSearchQuery('')} className='   fixed left-0  top-20 flex justify-center h-screen w-screen ModalBg'>
+            <div className=' sm:w-1/2 w-full mx-2 relative rounded-2xl mt-2 h-fit  bg-gray-100  '>
                 {
                     Result?.length != 0 ?
                         Result?.slice(0, 6).map((item, i) => {

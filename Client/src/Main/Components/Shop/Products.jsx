@@ -78,23 +78,23 @@ const Products = () => {
         <div className="">
             <ScrollTop />
             <TopFilter DisplayRow={DisplayRow} setDisplayRow={setDisplayRow} SortFilter={SortFilter} setData={setData} />
-            <div className=" mx-5">
-                <div className=" flex flex-wrap gap-10 justify-center">
+            <div className=" md:mx-5 mx-1">
+                <div className=" flex flex-wrap md:gap-10 gap-3 justify-center">
                     {
                         Data?.map((item, i) => {
                             const { imageUrl, name, price, _id, description, stock } = item;
                             return (
                                 <>
-                                    <div key={i} className={`w-full group  py-4  cursor-default border border-gray-200 rounded-lg shadow 
-                                    ${!DisplayRow ? 'max-w-xs  min-w-[20rem]' : ' flex justify-start gap-x-10'}
+                                    <div key={i} className={`w-full group  py-4 flex-grow cursor-default border border-gray-200 rounded-lg shadow 
+                                    ${!DisplayRow ? 'sm:w-[20rem] w-[9rem]' : ' md:flex md:justify-start  '}
                                     `}>
-                                        <div className={` h-60  
-                                        ${DisplayRow ? 'w-60' : 'w-full'}
+                                        <div className={` flex justify-center
                                         `}>
-                                            <img className="p-2 object-contain h-full w-full rounded-t-lg  " src={imageUrl} alt="product image" />
+                                            <img className={` h-60  w-24 
+                                        ${DisplayRow ? 'md:w-60' : 'md:w-full'} object-contain    `} src={imageUrl} alt="product image" />
                                         </div>
-                                        <div className="px-5 pb-5 ">
-                                            <h5 className="text-xl  tracking-tight group-hover:text-blue-700 font-bold text-gray-900 ">{name.length > 50 ? name.slice(0, 50) + '...' : name}</h5>
+                                        <div className="md:px-5 px-2 pb-5 ">
+                                            <h5 className="lg:text-xl sm:text-lg text-sm  tracking-tight group-hover:text-blue-700 font-bold text-gray-900 ">{name.length > 50 ? name.slice(0, 50) + '...' : name}</h5>
                                             <div className="flex items-center my-3">
                                                 <h2 className=" bg-green-700 font-semibold rounded text-xs py-0.5  pr-1 pl-2 w-fit gap-x-1 flex items-center text-white">
                                                     <span>4.3</span>
@@ -111,8 +111,8 @@ const Products = () => {
                                                 </h1>
                                             </div>
                                             <div className="flex items-center justify-between">
-                                                <span className="text-3xl font-bold text-gray-900 ">{Rupee}{price}</span>
-                                                <Link to={'/p/' + name.replaceAll(' ', '-')} className="px-6 py-2 font-medium disabled:bg-gray-500  text-white capitalize  duration-300  bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
+                                                <span className="md:text-3xl text-sm font-bold text-gray-900 ">{Rupee}{price}</span>
+                                                <Link to={'/p/' + name.replaceAll(' ', '-')} className="md:px-6 px-2 py-1 md:py-2 text-xs font-medium md:text-md   text-white   duration-300  bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
                                                     View
                                                 </Link>
                                             </div>

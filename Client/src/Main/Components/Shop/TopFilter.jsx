@@ -18,7 +18,7 @@ const TopFilter = ({ DisplayRow, SortFilter, setData, setDisplayRow }) => {
             <div className="w-full px-3   py-4 ">
                 <div className="px-3 mb-4">
                     <div className="flex justify-between  ">
-                        <div className="flex gap-x-3">
+                        <div className=" gap-x-3 md:flex hidden">
                             <h1 onClick={() => setDisplayRow(false)} className={`h-fit p-2  border rounded-md bg-gray-50 
                             ${!DisplayRow ? 'bg-slate-200' : 'bg-slate-50'}
                             `}>

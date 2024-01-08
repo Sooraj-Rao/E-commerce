@@ -6,8 +6,10 @@ const Shop = () => {
     return (
         <div>
             <div className=" flex " >
-                <Filter />
-                <div className=" w-[calc(100%-20rem)] ">
+                <div className=" md:block hidden">
+                    <Filter />
+                </div>
+                <div className=" md:w-[calc(100%-20rem)] w-full ">
                     <Products />
                 </div>
             </div>

@@ -1,23 +1,43 @@
 import Order from "../../Models/User/Order.js";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import User from "../../Models/User/userModel.js";
+dotenv.config();
 
 export const SaveOrderInfo = async (req, res) => {
   try {
-    const { cart, addressInfo, date, name, email, paymentId, amountInfo } =
-      req.body;
-    if (name == "" || email == "" || addressInfo.phone == "") {
-      return res.json({ error: true, message: "all field required" });
+    const { cart, addressInfo, date, paymentId, amountInfo, token } = req.body;
+    if (!addressInfo.name || !addressInfo.phone || !token) {
+      return res.json({ error: true, message: "Unauthorized" });
     }
-    const newOrder = new Order({
-      cart,
-      amountInfo,
-      addressInfo,
-      date,
-      name,
-      email,
-      paymentId,
+    const secretKey = process.env.SECRET_KEY;
+
+    jwt.verify(token, secretKey, async (err, decoded) => {
+      if (err) {
+        return res.json({ error: true, message: "Unauthorized" });
+      }
+      const userId = decoded.id;
+      const findUser = await User.findById(userId);
+      if (!findUser) {
+        return res.json({ error: true, message: "Unauthorized" });
+      } else {
+        cart.map((item, i) => {
+          const { product, quantity } = item;
+          return findUser.purchaseHistory.push({ product, quantity });
+        });
+      }
+      const newOrder = new Order({
+        cart,
+        amountInfo,
+        addressInfo,
+        date,
+        user: userId,
+        paymentId,
+      });
+      await findUser.save();
+      await newOrder.save();
+      res.json({ error: false, message: "success" });
     });
-    await newOrder.save();
-    res.json({ error: false, message: "success" });
   } catch (error) {
     console.log(error);
     res.json({ error: true, message: "failed" });
