@@ -3,7 +3,7 @@ import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import { CategoryData } from '../../../../public/Constants/Data'
 import { ArrowIcon } from '../../../../public/SVG/IconsSvg';
 
-const Filter = ({ setFilterPrice }) => {
+const Filter = () => {
     const [Amount, setAmount] = useState({
         from: 100, to: 1000
     })
@@ -21,8 +21,6 @@ const Filter = ({ setFilterPrice }) => {
         existingParams.set('min', Amount.from);
         existingParams.set('max', Amount.to);
         setSearch(existingParams);
-
-        setFilterPrice({ min: Amount.from, max: Amount.to });
     };
 
 

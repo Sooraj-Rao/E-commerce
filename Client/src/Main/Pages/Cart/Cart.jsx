@@ -15,7 +15,8 @@ const CartItem = () => {
     id: null,
     confirm: false
   });
-  const Disocunt = Total ? ((2 / 100) * Total).toFixed() : '';
+  const DisocuntPercent = 10
+  const Disocunt = Total ? ((DisocuntPercent / 100) * Total).toFixed() : '';
 
   const context = useContext(MyContext);
   const { Server, UserItems, setUserItems, Cart, setCart, WishList, setWishList } = context;
@@ -51,14 +52,15 @@ const CartItem = () => {
     toast.success(`Successfully removed item from ${param}`);
   }
 
-  let Totalcount = 0;
   const CalculateTotal = () => {
-    Cart.map((item) => {
-      let amt = item.price * item.quantity;
-      Totalcount += amt
-    })
-    setTotal((prev) => Totalcount)
-  }
+    let totalAmount = 0;
+    Cart.forEach((item) => {
+      const itemAmount = item.price * item.quantity;
+      totalAmount += itemAmount;
+    });
+    setTotal(totalAmount);
+  };
+
 
   useEffect(() => {
     ConfirmDelete.id && ConfirmDelete.confirm ? RemoveProduct(ConfirmDelete.id) : ''
@@ -173,7 +175,7 @@ const CartItem = () => {
 
                       <div className="flex justify-between">
                         <h1>Discount</h1>
-                        <h1>{Rupee} {Disocunt} <span className=" text-xs pl-2">(2%)</span>  </h1>
+                        <h1>{Rupee} {Disocunt} <span className=" text-xs pl-2">({DisocuntPercent}%)</span>  </h1>
                       </div>
 
                       <div className="flex justify-between !text-base font-medium">

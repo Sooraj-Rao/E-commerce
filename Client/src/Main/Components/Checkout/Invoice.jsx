@@ -1,57 +1,47 @@
-import { useNavigate } from 'react-router-dom';
+import { Link,  useNavigate } from 'react-router-dom';
 import { CheckIcon } from '../../../../public/SVG/IconsSvg';
 import { useContext, useEffect, useState } from 'react';
 import { MyContext } from '../../Context/Context';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import ScrollTop from '../../Constant/ScrollTo/ScrollTop';
 
-const Invoice = () => {
-    const [Data, setData] = useState();
-    const navigate = useNavigate();
+const Invoice = ({ InvoiceDetails, setInvoice }) => {
+
     const context = useContext(MyContext);
     const { Server, userDetails } = context;
     const email = userDetails?.user?.email;
 
-    const fetchBill = async () => {
-        try {
-            const res = await axios.get(Server + `order/invoice/${email}`)
-            const { error, data } = res.data;
-            if (error) {
-                return toast.error('failed to fetch bill')
-            }
-            setData(data)
-        } catch (error) {
-            console.log(error);
-            toast.error('Failed to fetch Bill')
-        }
 
-    }
-
-    useEffect(() => {
-        email ? fetchBill() : ''
-    }, [email])
-
-    const { address, name, phone, pincode } = Data?.addressInfo || '';
-    const { discount, shipping, subtotal, total } = Data?.amountInfo || '';
-    const { date, paymentId } = Data || ''
-
+    const { addressInfo, amountInfo, paymentId, date } = InvoiceDetails;
+    const { name, address, phone, pincode } = addressInfo;
+    const { shipping, subtotal, total, discount } = amountInfo;
 
     return (
-        <div className=' fixed  w-screen  top-0 h-screen overflow-y-scroll'>
-            <section className="flex items-center my-2 py-16 bg-gray-100 md:py-20 font-poppins  ">
+        <div className=' '>
+              <ScrollTop/>
+            <section className="flex items-center py-6 bg-gray-300  font-poppins  ">
                 <div className=" relative justify-center flex-1 max-w-6xl px-4 py-4 mx-auto bg-white border rounded-md  md:py-10 md:px-10">
-                    <h1 onClick={() => navigate('/products')} className=' absolute right-5 top-5 font-sans font-bold bg-blue-600 text-white px-4 py-1  rounded text-lg cursor-pointer'>X</h1>
+                    <h1 onClick={() => setInvoice(null)} className=' absolute right-5 top-5 font-sans font-bold bg-blue-600 text-white px-4 py-1  rounded text-lg cursor-pointer'>X</h1>
                     <div>
                         <h1 className="px-4 mb-8 text-2xl font-semibold tracking-wide text-gray-700  ">
-                            Thank you. Your order has been received. </h1>
+                            Here is your Invoice for order <span className=' uppercase'> #{paymentId.slice(4)}</span> </h1>
                         <div className="flex border-b border-gray-200   items-stretch justify-start w-full h-full px-4 mb-8 md:flex-row xl:flex-col md:space-x-6 lg:space-x-8 xl:space-x-0">
-                            <div className="flex items-start justify-start flex-shrink-0">
+                            <div className="flex justify-between w-full">
                                 <div className="flex items-center justify-center w-full pb-6 space-x-4 md:justify-start">
                                     <div className="flex flex-col items-start justify-start space-y-2">
                                         <p className="text-lg font-semibold leading-4 text-left text-gray-800 ">
                                             {name}</p>
+                                        <p className="text-sm leading-4 text-gray-600 ">Ph: {phone}</p>
+                                        <p className="text-sm leading-4 pst-5 cursor-pointer ">Email: {email}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-center w-full pb-6 space-x-4 md:justify-start">
+                                    <div className="flex flex-col items-start justify-start space-y-2">
+                                        <p className="text-lg font-semibold leading-4 text-left text-gray-800 ">
+                                            Address Details</p>
                                         <p className="text-sm leading-4 text-gray-600 ">{address}</p>
-                                        <p className="text-sm leading-4 pst-5 cursor-pointer ">{email}</p>
+                                        <p className="text-sm leading-4 pst-5 cursor-pointer ">{pincode}</p>
                                     </div>
                                 </div>
                             </div>
@@ -60,8 +50,8 @@ const Invoice = () => {
                             <div className="w-full px-4 mb-4 md:w-1/4">
                                 <p className="mb-2 text-sm leading-5 text-gray-600  ">
                                     Order Number: </p>
-                                <p className="text-base font-semibold leading-4 text-gray-800 ">
-                                    {paymentId?.slice(4)}</p>
+                                <p className="text-base uppercase font-semibold leading-4 text-gray-800 ">
+                                    #{paymentId?.slice(4)}</p>
                             </div>
                             <div className="w-full px-4 mb-4 md:w-1/4">
                                 <p className="mb-2 text-sm leading-5 text-gray-600  ">
@@ -92,11 +82,6 @@ const Invoice = () => {
                                         <div className="flex justify-between w-full">
                                             <p className="text-base leading-4 text-gray-800 ">Subtotal</p>
                                             <p className="text-base leading-4 text-gray-600 ">{subtotal}</p>
-                                        </div>
-                                        <div className="flex items-center justify-between w-full">
-                                            <p className="text-base leading-4 text-gray-800 ">Discount
-                                            </p>
-                                            <p className="text-base leading-4 text-gray-600 ">{discount} <span className=' text-xs'>( 2%)</span> </p>
                                         </div>
                                         <div className="flex items-center justify-between w-full">
                                             <p className="text-base leading-4 text-gray-800 ">Shipping</p>
@@ -135,11 +120,6 @@ const Invoice = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="flex flex-wrap items-center justify-start gap-4 px-4 mt-6 ">
-                            <button onClick={() => navigate('/products')} className="w-full px-4 py-2 bg-blue-500 rounded-md text-gray-50 md:w-auto  hover:bg-blue-600 ">
-                                Go Back Shopping
-                            </button>
                         </div>
                     </div>
                 </div>

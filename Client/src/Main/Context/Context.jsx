@@ -56,7 +56,7 @@ const Context = ({ children }) => {
             }
             setAllItems(data)
         } catch (error) {
-            console.log(error);
+            return toast.error('Failed to load,Try after Some Time')
         }
     }
 

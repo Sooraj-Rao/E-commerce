@@ -28,7 +28,7 @@ const CheckOutHeader = () => {
 
                     <ol className="mt-4 grid grid-cols-3 text-sm font-medium text-gray-500">
                         <li className="flex items-center justify-start text-blue-600 sm:gap-1.5">
-                            <Link to={'/checkout/details'} className="hidden sm:inline"> Details </Link>
+                            <h1 className="hidden sm:inline"> Details </h1>
                             <span>
                                 {DetailsIcon}
                             </span>
@@ -36,12 +36,12 @@ const CheckOutHeader = () => {
                         <li className={`flex items-center justify-center  sm:gap-1.5
                          ${param == 'address' || param == 'payment' ? 'text-blue-600' : 'text-gray-500'} 
                         `}>
-                            <Link to={'/checkout/address'} className="hidden sm:inline"> Address </Link>
+                            <h1 className="hidden sm:inline"> Address </h1>
                             {AddressIcon}
                         </li>
                         <li className={`flex items-center justify-end text-blue-600 sm:gap-1.5
                            ${param == 'payment' ? 'text-blue-600' : 'text-gray-500'} `}>
-                            <Link to={'/checkout/payment'} className="hidden  sm:inline"> Payment </Link>
+                            <h1 className="hidden  sm:inline"> Payment </h1>
                             {PaymentIcon}
                         </li>
                     </ol>

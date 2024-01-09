@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../../Models/User/userModel.js";
 dotenv.config();
+const secretKey = process.env.SECRET_KEY;
 
 export const SaveOrderInfo = async (req, res) => {
   try {
@@ -10,7 +11,6 @@ export const SaveOrderInfo = async (req, res) => {
     if (!addressInfo.name || !addressInfo.phone || !token) {
       return res.json({ error: true, message: "Unauthorized" });
     }
-    const secretKey = process.env.SECRET_KEY;
 
     jwt.verify(token, secretKey, async (err, decoded) => {
       if (err) {
@@ -44,19 +44,42 @@ export const SaveOrderInfo = async (req, res) => {
   }
 };
 
+
 export const getOrderInfo = async (req, res) => {
   try {
-    const { email } = req.params;
-    console.log(email);
-    if (!email) {
-      res.json({ error: true, message: "invalid email" });
-    }
-    const orderInfo = await Order.findOne({ email });
-    if (orderInfo) {
-      res.json({ error: false, message: "success", data: orderInfo });
-    } else {
-      res.json({ error: true, message: "not found", data: null });
-    }
+    const { token } = req.params;
+    jwt.verify(token, secretKey, async (err, decoded) => {
+      if (err) {
+        return res.json({ error: true, message: "Unauthorized", data: null });
+      }
+      const userId = decoded.id;
+      const orderList = await Order.find({ user: userId });
+
+      const ordersWithProducts = await Promise.all(
+        orderList.map(async (order) => {
+          const productsInOrder = await Promise.all(
+            order.cart.map(async (cartItem) => {
+              const populatedCartItem = await Order.populate(cartItem, {
+                path: "product",
+                model: "products",
+              });
+              return populatedCartItem;
+            })
+          );
+          const orderWithProducts = {
+            ...order.toJSON(),
+            cart: productsInOrder,
+          };
+          return orderWithProducts;
+        })
+      );
+
+      return res.json({
+        error: false,
+        message: "success",
+        data: ordersWithProducts,
+      });
+    });
   } catch (error) {
     console.log(error);
     res.json({ error: true, message: "failed" });

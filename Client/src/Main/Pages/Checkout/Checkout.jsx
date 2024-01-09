@@ -15,7 +15,6 @@ const Checkout = () => {
     details: <UserDetails />,
     address: <UserAddress />,
     payment: <Payment />,
-    invoice: <Invoice />
   }
 
   useEffect(() => {

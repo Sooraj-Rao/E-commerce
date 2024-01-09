@@ -27,15 +27,17 @@ const Products = () => {
             const res = await axios.get(Server + 'getProducts/' + isParam);
             const { error, message, data } = res.data;
             if (error) {
-                return toast.error(message)
+                window.location.href = '/';
+                return toast.error('Falied to get Data')
             }
             if (data) {
                 setData(data)
             } else {
-                // return navigate('/products')
+                window.location.href = '/';
             }
         } catch (error) {
-            console.log(error);
+            window.location.href = '/';
+            return toast.error('Falied to get Data')
         }
     }
 
@@ -59,7 +61,6 @@ const Products = () => {
                 break;
             case 'PriceF':
                 // newData = newData.sort((a, b) => a.price - b.price);
-                console.log('Inside here');
                 break;
             default:
                 break;
@@ -84,14 +85,16 @@ const Products = () => {
                         Data?.map((item, i) => {
                             const { imageUrl, name, price, _id, description, stock } = item;
                             return (
-                                <>
-                                    <div key={i} className={`w-full group  py-4 flex-grow cursor-default border border-gray-200 rounded-lg shadow 
-                                    ${!DisplayRow ? 'sm:w-[20rem] w-[9rem]' : ' md:flex md:justify-start  '}
+                                <div key={i}>
+                                    <div  className={`w-full group  py-4 flex-grow cursor-default border border-gray-200 rounded-lg shadow 
+                                    ${!DisplayRow ? 'sm:w-[20rem] w-[9rem]' : ' md:flex md:justify-start md:px-2  '}
                                     `}>
-                                        <div className={` flex justify-center
+                                        <div className={` flex justify-center 
+                                        
                                         `}>
-                                            <img className={` h-60  w-24 
-                                        ${DisplayRow ? 'md:w-60' : 'md:w-full'} object-contain    `} src={imageUrl} alt="product image" />
+                                            <img className={` w-full h-60
+                                              ${DisplayRow ? 'md:min-w-60' : 'md:w-60'}
+                                         object-contain   `} src={imageUrl} alt="product image" />
                                         </div>
                                         <div className="md:px-5 px-2 pb-5 ">
                                             <h5 className="lg:text-xl sm:text-lg text-sm  tracking-tight group-hover:text-blue-700 font-bold text-gray-900 ">{name.length > 50 ? name.slice(0, 50) + '...' : name}</h5>
@@ -112,19 +115,19 @@ const Products = () => {
                                             </div>
                                             <div className="flex items-center justify-between">
                                                 <span className="md:text-3xl text-sm font-bold text-gray-900 ">{Rupee}{price}</span>
-                                                <Link to={'/p/' + name.replaceAll(' ', '-')} className="md:px-6 px-2 py-1 md:py-2 text-xs font-medium md:text-md   text-white   duration-300  bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
+                                                <Link to={'/p/' + name.replaceAll(' ', '-')} className="md:px-6 px-2 py-1 md:py-2 text-xs font-medium md:text-base   text-white   duration-300  bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
                                                     View
                                                 </Link>
                                             </div>
                                         </div>
                                     </div>
-                                </>
+                                </div>
                             )
                         })
                     }
                 </div>
             </div>
-            <Pagination />
+            {/* <Pagination /> */}
         </div >
     )
 }

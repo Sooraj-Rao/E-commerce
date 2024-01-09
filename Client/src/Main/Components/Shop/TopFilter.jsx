@@ -38,7 +38,7 @@ const TopFilter = ({ DisplayRow, SortFilter, setData, setDisplayRow }) => {
                             <div className="  border border-gray-300 pr-3 rounded ">
                                 <select onChange={handleChange} className="block p-3  text-base  outline-none cursor-pointer ">
                                     <option value="latest" >Sort by latest</option>
-                                    <option value="popular">Sort by Popularity</option>
+                                    {/* <option value="popular">Sort by Popularity</option> */}
                                     <option value="lowTo">Price-Low to High</option>
                                     <option value="highTo">Price-High to Low</option>
                                 </select>

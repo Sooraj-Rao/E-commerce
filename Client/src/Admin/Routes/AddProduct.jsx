@@ -39,6 +39,7 @@ const AddProduct = () => {
         if (Input.name == '' || Input.category == '' || Input.description == '' || Input.imageUrl == '' || Input.stock == '' || Input.price == '') {
             return console.log('All required');
         }
+        if (Input.name.includes('/') || Input.name.includes('-')) return console.log(' / - Not valid');
         let numStock = Number(Input.stock)
         let numPrice = Number(Input.price)
         setInput({ ...Input, stock: numStock, price: numPrice })
@@ -58,7 +59,7 @@ const AddProduct = () => {
                 stock: ''
             })
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
 

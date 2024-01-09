@@ -40,10 +40,10 @@ const Navbar = () => {
             name: 'Orders',
             path: '/manage/order'
         },
-        {
-            name: 'Profile',
-            path: '/manage/Profile'
-        },
+        // {
+        //     name: 'Profile',
+        //     path: '/manage/Profile'
+        // },
         {
             name: 'Logout',
             click: 'formshow'
@@ -103,7 +103,7 @@ const Navbar = () => {
                         <Link className="my-2  transition-colors duration-300 transform flex  hover:text-blue-500  md:mx-4 md:my-0 text-blue-700   animate-pulse" to="products"><span>New Arrivals!</span></Link>
                         {
                             !login &&
-                            <Link className="my-2  transition-colors duration-300 transform  hover:bg-blue-500  md:mx-4 md:my-0 bg-blue-400 py-1  px-4 text-white rounded-lg" to="/auth/login">SignUp</Link>
+                            <Link className="my-2  transition-colors duration-300 transform  hover:bg-blue-700  md:mx-4 md:my-0 bg-blue-600 py-2  px-4 text-white rounded-md" to="/auth/login">SignUp</Link>
                         }
                         {
                             login && admin &&
@@ -122,7 +122,7 @@ const Navbar = () => {
                     </div>
                     {
                         login &&
-                        <div className=' px-3 ml-4 py-2 group hover:mt-[9.6rem]  cursor-default  '>
+                        <div className=' px-3 ml-4 py-2 group hover:mt-[6.9rem]  cursor-default  '>
                             <h1 className='bg-blue-200 px-4   flex items-center gap-x-4 text-center rounded-lg py-2'>
                                 <span className=' h-7 w-7 overflow-hidden'>
                                     <img src="../../../../Images/Home/avatar.png" alt="" />

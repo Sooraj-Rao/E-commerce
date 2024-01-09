@@ -11,10 +11,13 @@ const Payment = () => {
   const context = useContext(MyContext);
   const { Cart, AddressInfo, userDetails, Server, setCart } = context;
   const [OrderSucess, setOrderSucess] = useState('');
-  const ship = 400;
 
-  const total = Cart?.length !== 0 ? (Cart?.length == 1 ? Cart[0]?.price : Cart?.reduce((acc, curr) => acc?.price + curr?.price)) : '';
-  const Disocunt = total ? ((2 / 100) * total)?.toFixed() : '';
+  let total = Cart?.length !== 0 ? (Cart?.length == 1 ? Cart[0]?.price : Cart?.reduce((acc, curr) => acc?.price + curr?.price)) : '';
+  const ship = 100;
+
+  const DisocuntPercent = 10
+  const Disocunt = total ? ((DisocuntPercent / 100) * total).toFixed() : '';
+  total = total - Disocunt;
 
   const { address1, pincode } = AddressInfo || '';
   const { phone, name } = userDetails?.user || '';
@@ -39,15 +42,14 @@ const Payment = () => {
   }
 
   var options = {
-    key: "rzp_test_aJ2B5HiOYA0pSW",
-    key_secret: "GqeOAPfu4b6VpP5FRqTrRQm8",
+    key: import.meta.env.VITE_RAZOR_KEY,
+    key_secret: import.meta.env.VITE_RAZOR_SECRET,
     amount: parseInt((total + ship) * 100),
     currency: "INR",
     order_receipt: 'order_rcptid_' + 'Sooraj',
     name: "QuickMart",
     description: "for testing purpose",
     handler: function (response) {
-      console.log(response)
       toast.success('Payment Successful')
       const paymentId = response.razorpay_payment_id;
       const orderInfo = {
@@ -88,16 +90,16 @@ const Payment = () => {
 
   const SaveDB = async (orderInfo) => {
     if (orderInfo.name == '' || orderInfo.email == '' || orderInfo.addressInfo.phone == '') {
-      return console.log('All field required');
+      return toast.error('UnAuthorized,Please Re-Login')
     }
     try {
       const res = await axios.post(Server + 'order/payment', orderInfo)
       const { error } = res.data;
-      if (error) {
-        return toast.error('UnAuthorized.Please Login Again! ')
-      }
+      // if (error) {
+      //   return toast.error('UnAuthorized.Please Login Again! ')
+      // }
     } catch (error) {
-      console.log(error);
+      return toast.error('Failed Payment In Server')
     }
   }
 
@@ -121,11 +123,11 @@ const Payment = () => {
                     return (
                       <div key={i}
                         className="p-10 mb-8 bg-white rounded-md shadow relative  sm:flex sm:items-center xl:py-5 xl:px-12">
-                        <a href="#" className="mr-6 md:mr-12">
+                        <div className="mr-6 md:mr-12">
                           <img className=" w-full lg:w-[80px]  h-[200px] lg:h-[80px]  object-contain  mx-auto mb-6 sm:mb-0 "
                             src={imageUrl}
                             alt="" />
-                        </a>
+                        </div>
                         <div>
                           <h1 className="inline-block mb-1 text-lg font-medium  " >
                             {name}</h1>

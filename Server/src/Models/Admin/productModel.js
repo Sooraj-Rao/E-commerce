@@ -61,6 +61,6 @@ const productSchema = new Schema(
   }
 );
 
-const Product = model("Product", productSchema);
+const Product = model("products", productSchema);
 
 export default Product;

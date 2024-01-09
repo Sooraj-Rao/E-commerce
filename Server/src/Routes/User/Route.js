@@ -14,4 +14,4 @@ router.get("/getProducts/:category", getProducts);
 router.get("/productDetail/:name", getSingleProduct);
 
 router.post("/order/payment", SaveOrderInfo);
-router.get("/order/invoice/:email", getOrderInfo);
+router.get("/order/details/:token", getOrderInfo);

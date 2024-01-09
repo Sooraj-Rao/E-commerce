@@ -10,7 +10,6 @@ const Navbar = () => {
                 <Link to={Route + '/addProduct'}>Add Product</Link>
                 <Link to={Route + '/orders'}>Order</Link>
                 <Link to={Route + '/products'}>Products</Link>
-                <Link to={Route + '/bills'}>Bills</Link>
             </div>
         </div>
     )

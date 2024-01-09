@@ -44,12 +44,13 @@ const ProductInfo = () => {
             if (error) {
                 toast.error(message)
                 setTimeout(() => {
-                    // window.history.back()
+                    window.history.back()
                 }, 2000);
             }
             setData(data);
         } catch (error) {
-            console.log(error);
+            toast.error('Failed to load data!');
+            window.history.back()
         }
     }
 
@@ -62,8 +63,7 @@ const ProductInfo = () => {
     useEffect(() => {
         !Data ? FetchProduct() : '';
         CheckIsPresent();
-    }, [Cart, WishList, item,Data])
-console.log(WishList);
+    }, [Cart, WishList, item, Data])
 
     const { description, imageUrl, name, price, stock, _id } = Data ? Data : ''
 

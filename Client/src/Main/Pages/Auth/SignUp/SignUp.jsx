@@ -30,7 +30,6 @@ const SignUp = () => {
         try {
             const res = await axios.post(Server + 'auth/signUp', Input);
             const { error, message } = res.data;
-            console.log(res);
             if (error) {
                 return toast.error(message)
             }
@@ -39,7 +38,7 @@ const SignUp = () => {
                 navigate('/auth/login')
             }, 3000);
         } catch (error) {
-            console.log(error);
+            toast.error('Registration Failed')
         }
     }
 
@@ -61,7 +60,6 @@ const SignUp = () => {
         <section className="bg-gray-200 py-10 ">
             <ScrollTop />
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto -mt-5 md:h-screen lg:py-0">
-                <h1>Logo</h1>
                 <div className="w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 ">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
@@ -78,7 +76,7 @@ const SignUp = () => {
                             </div>
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-900 ">Phone</label>
-                                <input value={Input.phone} onChange={handleChange}  required name="phone" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="name@company.com" required="" />
+                                <input value={Input.phone} onChange={handleChange} required name="phone" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="name@company.com" required="" />
                             </div>
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
