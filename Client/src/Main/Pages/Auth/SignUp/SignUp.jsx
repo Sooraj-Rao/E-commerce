@@ -5,10 +5,12 @@ import { AuthMessage } from "../../../Constant/Messages/Messages"
 import axios from 'axios'
 import ScrollTop from '../../../Constant/ScrollTo/ScrollTop';
 import { MyContext } from "../../../Context/Context"
+import Spinner from '../../../Animation/Spinner/Spinner'
 
 const SignUp = () => {
     const context = useContext(MyContext);
     const { Server } = context;
+    const [Loader, setLoader] = useState(false);
 
     const navigate = useNavigate();
     const [Input, setInput] = useState({
@@ -28,7 +30,9 @@ const SignUp = () => {
 
     const SignUp = async () => {
         try {
+            setLoader(true);
             const res = await axios.post(Server + 'auth/signUp', Input);
+            setLoader(false);
             const { error, message } = res.data;
             if (error) {
                 return toast.error(message)
@@ -38,6 +42,7 @@ const SignUp = () => {
                 navigate('/auth/login')
             }, 3000);
         } catch (error) {
+            setLoader(false);
             toast.error('Registration Failed')
         }
     }
@@ -94,7 +99,14 @@ const SignUp = () => {
                                     <label className="font-medium text-slate-600 ">I accept the <Link to={'/i/terms'} className="font-medium text-blue-600 hover:underline " href="#">Terms and Conditions</Link></label>
                                 </div>
                             </div>
-                            <button onClick={Validate} type="submit" className="w-full text-white bg-blue-700 text-base hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg  px-5 py-2.5 text-center ">Create an account</button>
+                            <button onClick={Validate} type="submit" className="w-full text-white bg-blue-700 text-base hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg  px-5 py-2.5 text-center ">
+                                {
+                                    Loader ?
+                                        <Spinner /> :
+                                        'Create an account'
+                                }
+
+                            </button>
                             <p className="text-sm  font-medium text-slate-600  ">
                                 Already have an account? <Link to={'/auth/Login'} className="font-medium text-blue-600  hover:underline ">Login</Link>
                             </p>

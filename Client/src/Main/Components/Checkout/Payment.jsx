@@ -102,7 +102,7 @@ const Payment = () => {
       return toast.error('Failed Payment In Server')
     }
   }
-
+  
   return (
     <div>
       <ScrollTop />

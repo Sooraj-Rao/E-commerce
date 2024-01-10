@@ -1,9 +1,9 @@
 export const CategoryData = [
     {
-        "Men's Fashion": '../../../../public/Images/Home/Category/fashion.webp'
+        "Men's Fashion": '../../../../public/Images/Home/Category/men.webp'
     },
     {
-        "Women's Fashion": '../../../../public/Images/Home/Category/fashion.webp'
+        "Women's Fashion": '../../../../public/Images/Home/Category/women.webp'
     },
     {
         Books: '../../../../public/Images/Home/Category/Books.webp'

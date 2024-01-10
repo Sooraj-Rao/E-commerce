@@ -5,6 +5,7 @@ import { MyContext } from '../../Context/Context'
 import toast from "react-hot-toast";
 import { StarIcon } from '../../../../public/SVG/IconsSvg'
 import { Rupee } from '../../Constant/Messages/Messages'
+import SpinLoader from '../../Animation/Spinner/SpinLoader'
 
 const Latest = () => {
     const navigate = useNavigate()
@@ -21,6 +22,9 @@ const Latest = () => {
             <h1 className=" border border-blue-800 w-32 mb-10"></h1>
             <div className=" grid grid-cols-2 md:grid-cols-4  gap-10 justify-center">
                 {
+                    Latest.length==0?
+                    <SpinLoader/>
+                    :
                     Latest?.slice(0, 8).map((item, i) => {
                         const { name, price, imageUrl, _id } = item;
                         return (
