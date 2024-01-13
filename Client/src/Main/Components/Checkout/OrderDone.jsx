@@ -30,7 +30,7 @@ const OrderDone = () => {
               <button
                 onClick={() => navigate('/manage/order')}
                 className="inline-flex justify-center w-full px-4 py-2 text-base font-semibold text-gray-100 bg-blue-600 rounded-md shadow md:w-fit md:ml-2  focus:outline-none focus:ring-2  focus:ring-offset-2  focus:ring-offset-gray-100  focus:ring-blue-500 ">
-                View Invoice
+                Order Details
               </button>
             </div>
             <Link to={'/'} className=' text-blue-900 underline absolute  '>Home</Link>

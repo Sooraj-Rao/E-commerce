@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { CartIcon, CloseIcon, DownArrow, MenuIcon, Search } from '../../../../public/SVG/IconsSvg'
 import { MyContext } from '../../Context/Context';
@@ -10,11 +10,13 @@ const Navbar = () => {
     const { pathname } = useLocation()
     const [FormShow, setFormShow] = useState(false)
     const [MobileMenu, setMobileMenu] = useState(false);
-    const [ShowSerach, setShowSerach] = useState(false)
+    const [isFirst, setisFirst] = useState(localStorage.getItem('firstCall') || false);
     const context = useContext(MyContext);
     const { login, Cart, AllItems, userDetails, admin } = context;
     const [SearchQuery, setSearchQuery] = useState('');
     const [Result, setResult] = useState()
+
+
     const handleChange = (e) => {
         let { value } = e.target;
         setSearchQuery(value)
@@ -33,8 +35,10 @@ const Navbar = () => {
 
     useEffect(() => {
         SearchQuery && ShowResult();
-    }, [SearchQuery])
-
+        AllItems?.length != 0 && localStorage.setItem('firstCall', true);
+        AllItems?.length != 0 && setisFirst(true);
+    }, [AllItems, SearchQuery])
+    console.log(isFirst);
     const DropDown = [
         {
             name: 'Orders',
@@ -57,6 +61,9 @@ const Navbar = () => {
                     <AreYouSure from='Logout' message='Logout' setFormShow={setFormShow} />
                     : null
             }
+            <div className={`${isFirst ? 'h-0 ' : 'py-3'} duration-500 bg-blue-500  text-center text-white `}>
+                <h1>Since my API is deployed on free tier, The first request to the API will take 30 -40 seconds.Kindly Refresh</h1>
+            </div>
             <div className=" h-20   md:flex md:justify-between   md:items-center  relative">
                 <div className=' flex md:pt-0 pt-4  justify-between  lg:w-full  '>
                     <div className="flex  sm:gap-x-10 gap-x-3 items-center justify-between">

@@ -12,7 +12,7 @@ const Latest = () => {
     const context = useContext(MyContext);
     const { Server, AllItems } = context;
 
-    const Latest = AllItems.filter((item, i) => {
+    const Latest = AllItems?.filter((item, i) => {
         return item?.name?.includes('p')
     })
     return (
@@ -22,7 +22,7 @@ const Latest = () => {
             <h1 className=" border border-blue-800 w-32 mb-10"></h1>
             <div className=" grid grid-cols-2 md:grid-cols-4  gap-10 justify-center">
                 {
-                    Latest.length==0?
+                    Latest?.length==0?
                     <SpinLoader/>
                     :
                     Latest?.slice(0, 8).map((item, i) => {

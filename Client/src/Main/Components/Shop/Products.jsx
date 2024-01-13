@@ -76,7 +76,7 @@ const Products = () => {
 
 
     useEffect(() => {
-        categoryParam || AllItems.length == 0 ? FetchData() : setData(AllItems);
+        categoryParam || AllItems?.length == 0 ? FetchData() : setData(AllItems);
     }, [categoryParam])
 
 
