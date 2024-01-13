@@ -4,13 +4,14 @@ import { CartIcon, CloseIcon, DownArrow, MenuIcon, Search } from '../../../../pu
 import { MyContext } from '../../Context/Context';
 import AreYouSure from '../../Modals/AreYouSure';
 import SearchResult from './Search';
+import { useCookies } from 'react-cookie';
 
 const Navbar = () => {
     const navigate = useNavigate();
+    const [cookies, setCookie] = useCookies(['isFirst']);
     const { pathname } = useLocation()
     const [FormShow, setFormShow] = useState(false)
     const [MobileMenu, setMobileMenu] = useState(false);
-    const [isFirst, setisFirst] = useState(localStorage.getItem('firstCall') || false);
     const context = useContext(MyContext);
     const { login, Cart, AllItems, userDetails, admin } = context;
     const [SearchQuery, setSearchQuery] = useState('');
@@ -35,10 +36,8 @@ const Navbar = () => {
 
     useEffect(() => {
         SearchQuery && ShowResult();
-        AllItems?.length != 0 && localStorage.setItem('firstCall', true);
-        AllItems?.length != 0 && setisFirst(true);
+        AllItems?.length != 0 && setCookie('isFirst', true)
     }, [AllItems, SearchQuery])
-    console.log(isFirst);
     const DropDown = [
         {
             name: 'Orders',
@@ -54,6 +53,7 @@ const Navbar = () => {
         },
     ]
 
+
     return (
         <nav className=" bg-white z-[99]  shadow-lg    sticky top-0  ">
             {
@@ -61,7 +61,7 @@ const Navbar = () => {
                     <AreYouSure from='Logout' message='Logout' setFormShow={setFormShow} />
                     : null
             }
-            <div className={`${isFirst ? 'h-0 ' : 'py-3'} duration-500 bg-blue-500  text-center text-white `}>
+            <div className={`${cookies?.isFirst ? 'h-0' : 'py-3'} duration-500 bg-blue-500  text-center text-white `}>
                 <h1>Since my API is deployed on free tier, The first request to the API will take 30 -40 seconds.Kindly Refresh</h1>
             </div>
             <div className=" h-20   md:flex md:justify-between   md:items-center  relative">
