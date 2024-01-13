@@ -12,7 +12,7 @@ const Order = () => {
   const fetchOrders = async () => {
     try {
       const res = await axios.get(Server + 'admin/getOrders/');
-      const { message, error, data } = res.data;
+      const {  error, data } = res.data;
       if (error) {
         return console.log('Failed to get Data');
       }
