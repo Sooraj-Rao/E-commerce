@@ -102,7 +102,7 @@ const Products = () => {
                                             <div className={` flex justify-center 
                                         
                                         `}>
-                                                <img className={` w-full h-60
+                                                <img loading="lazy" className={` w-full h-60 
                                               ${DisplayRow ? 'md:min-w-60' : 'md:w-60'}
                                          object-contain   `} src={imageUrl} alt="product image" />
                                             </div>

@@ -41,7 +41,7 @@ const Card = () => {
 
             </div>
             <div className=" mx-4 overflow-hidden">
-                <img src="../../../../Images/Home/banner3.jpg" alt="" />
+                <img loading="lazy" src="../../../../Images/Home/banner3.jpg" alt="" />
             </div>
         </>
     )

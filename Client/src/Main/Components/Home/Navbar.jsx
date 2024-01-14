@@ -8,7 +8,6 @@ import { useCookies } from 'react-cookie';
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const [cookies, setCookie] = useCookies(['isFirst']);
     const { pathname } = useLocation()
     const [FormShow, setFormShow] = useState(false)
     const [MobileMenu, setMobileMenu] = useState(false);
@@ -36,8 +35,8 @@ const Navbar = () => {
 
     useEffect(() => {
         SearchQuery && ShowResult();
-        AllItems?.length != 0 && setCookie('isFirst', true)
-    }, [AllItems, SearchQuery])
+    }, [SearchQuery])
+    
     const DropDown = [
         {
             name: 'Orders',
@@ -61,9 +60,6 @@ const Navbar = () => {
                     <AreYouSure from='Logout' message='Logout' setFormShow={setFormShow} />
                     : null
             }
-            <div className={`${cookies?.isFirst ? 'h-0' : 'py-3'} duration-500 bg-blue-500  text-center text-white `}>
-                <h1>Since my API is deployed on free tier, The first request to the API will take 30 -40 seconds.Kindly Refresh</h1>
-            </div>
             <div className=" h-20   md:flex md:justify-between   md:items-center  relative">
                 <div className=' flex md:pt-0 pt-4  justify-between  lg:w-full  '>
                     <div className="flex  sm:gap-x-10 gap-x-3 items-center justify-between">
